@@ -10,8 +10,8 @@ import java.util.List;
 @RequestMapping("/pizza")
 public class PizzaController {
 
-    @PostMapping
-    public ResponseEntity<Pizza> crirNovaPizza(@RequestBody Pizza pizza) {
+    @PostMapping("/criar")
+    public ResponseEntity<Pizza> criarNovo(@RequestBody Pizza pizza) {
 
         pizza.setId(22L);
 
@@ -22,7 +22,7 @@ public class PizzaController {
         return ResponseEntity.created(null).body(pizza);
     }
 
-    @PatchMapping("/{sabor}/{tipo}/{preco}")
+    @PatchMapping("/atualizar/{sabor}/{tipo}/{preco}")
     public ResponseEntity<Pizza> atualizarRegistro(@RequestBody Pizza pizza,
                                                    @PathVariable String sabor,
                                                    @PathVariable String tipo,
@@ -39,19 +39,14 @@ public class PizzaController {
         return ResponseEntity.ok(pizza);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> excluirRegistro(@PathVariable Long id) {
-        return ResponseEntity.noContent().build();
-    }
-
-    @GetMapping("/{id}")
+    @GetMapping("/listar/id/{id}")
     public ResponseEntity<Pizza> listarRegistroPorId(@PathVariable Long id) {
         Pizza pizza1 = new Pizza(id,"Calabresa", "Tradicional", 52.69);
 
         return ResponseEntity.ok(pizza1);
     }
 
-    @GetMapping("/sabor/{sabor}")
+    @GetMapping("/listar/sabor/{sabor}")
     public ResponseEntity<Pizza> listarRegistroPorSabor(@PathVariable String sabor) {
         Pizza pizza1 = new Pizza(1L,"Calabresa", "Tradicional", 52.69);
         Pizza pizza2 = new Pizza(2L,"Chocolate", "Doce", 49.69);
@@ -69,7 +64,7 @@ public class PizzaController {
         return ResponseEntity.noContent().build();
     }
 
-    @GetMapping
+    @GetMapping("/listar")
     public ResponseEntity<List<Pizza>> listarResgistros() {
         Pizza pizza1 = new Pizza(1L, "Calabresa", "Tradicional", 52.69);
         Pizza pizza2 = new Pizza(2L, "Chocolate", "Doce", 49.69);
@@ -78,5 +73,10 @@ public class PizzaController {
         List<Pizza> pizzas = List.of(pizza1, pizza2, pizza3);
 
         return ResponseEntity.ok(pizzas);
+    }
+
+    @DeleteMapping("/excluir/{id}")
+    public ResponseEntity<String> excluirRegistro(@PathVariable Long id) {
+        return ResponseEntity.noContent().build();
     }
 }

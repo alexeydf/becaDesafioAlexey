@@ -15,4 +15,8 @@ API feita para controlar as vendas de uma pizzaria.
 - Implementar classes.
 - Criar projeto Spring Boot.
 - Criar repositório Git.
-- Realizar o commit do projeto.
+
+## Desafio 02
+<p>Neste desafio foram criados os controllers de nossa API.</p>
+<p>Foi implementado os ResponseEntity para manipular as respostas HTTP. Juntamente foi utilizado <a src="https://www.postman.com/">Postman</a> para a realização dos testes.</p>
+<p>Foi criado a documentação da API com base na especificação OpenAPI 3. Para isso foi adicionada a dependência springdoc-openapi-ui ao nosso pom.xml.</p>

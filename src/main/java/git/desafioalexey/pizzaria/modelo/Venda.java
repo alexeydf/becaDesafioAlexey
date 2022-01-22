@@ -1,21 +1,23 @@
 package git.desafioalexey.pizzaria.modelo;
 
 import java.util.Date;
+import java.util.List;
 
 public class Venda {
 
     private Long id;
-    private Integer quantidadeComprada;
-    private Double valorTotalPago;
+    private Integer quantidadeTotal;
+    private Double valorTotal;
     private Date dataVenda;
     private Cliente cliente;
 
     public Venda() {
     }
 
-    public Venda(Integer quantidadeComprada, Double valorTotalPago, Date dataVenda, Cliente cliente) {
-        this.quantidadeComprada = quantidadeComprada;
-        this.valorTotalPago = valorTotalPago;
+    public Venda(Long id, Integer quantidadeTotal, Double valorTotal, Date dataVenda, Cliente cliente) {
+        this.id = id;
+        this.quantidadeTotal = quantidadeTotal;
+        this.valorTotal = valorTotal;
         this.dataVenda = dataVenda;
         this.cliente = cliente;
     }
@@ -28,20 +30,20 @@ public class Venda {
         this.id = id;
     }
 
-    public Integer getQuantidadeComprada() {
-        return quantidadeComprada;
+    public Integer getQuantidadeTotal() {
+        return quantidadeTotal;
     }
 
-    public void setQuantidadeComprada(Integer quantidadeComprada) {
-        this.quantidadeComprada = quantidadeComprada;
+    public void setQuantidadeTotal(Integer quantidadeTotal) {
+        this.quantidadeTotal = quantidadeTotal;
     }
 
-    public Double getValorTotalPago() {
-        return valorTotalPago;
+    public Double getValorTotal() {
+        return valorTotal;
     }
 
-    public void setValorTotalPago(Double valorTotalPago) {
-        this.valorTotalPago = valorTotalPago;
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
     }
 
     public Date getDataVenda() {
