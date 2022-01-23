@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/venda")
@@ -17,7 +18,10 @@ public class VendaController {
     @PostMapping("/criar")
     public ResponseEntity<Venda> criar(@RequestBody Venda venda) {
 
-        venda.setId(1L);
+        Random gerar = new Random();
+        int nAleatorio = gerar.nextInt(99);
+
+        venda.setId(Long.valueOf(nAleatorio));
         venda.setDataVenda(new Date());
         venda.setQuantidadeTotal(0);
         venda.setValorTotal(0.0);

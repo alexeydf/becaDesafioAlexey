@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/pizza")
@@ -13,7 +14,10 @@ public class PizzaController {
     @PostMapping("/criar")
     public ResponseEntity<Pizza> criarNovo(@RequestBody Pizza pizza) {
 
-        pizza.setId(22L);
+        Random gerar = new Random();
+        int nAleatorio = gerar.nextInt(99);
+
+        pizza.setId(Long.valueOf(nAleatorio));
 
         if(pizza.getPreco() < 0) {
             return ResponseEntity.unprocessableEntity().build();

@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/item")
@@ -18,12 +19,15 @@ public class ItemVendaController {
     public ResponseEntity<ItemVenda> registrar(@RequestBody ItemVenda item){
 
         Cliente cliente2 = new Cliente(2L,"Thanan", "Guara 1", "61 999996669", "t@l.com");
-        Venda venda1 = new Venda(2L, 0, 0.0,new Date(),cliente2);
+        Venda venda1 = new Venda(2L, 0, 100.00,new Date(),cliente2);
 
-        item.setId(15L);
+        Random gerar = new Random();
+        int nAleatorio = gerar.nextInt(99);
+
+        item.setId(Long.valueOf(nAleatorio));
         item.setVenda(venda1);
 
-        venda1.setValorTotal(item.getPreco() * item.getQuantidade());
+        venda1.setValorTotal(venda1.getValorTotal() + (item.getPreco() * item.getQuantidade()));
         venda1.setQuantidadeTotal(item.getQuantidade());
 
         return ResponseEntity.created(null).body(item);

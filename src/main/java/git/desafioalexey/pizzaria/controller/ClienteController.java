@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 @RequestMapping("/cliente")
@@ -15,7 +16,14 @@ public class ClienteController {
     @PostMapping("/cadastro")
     public ResponseEntity<Cliente> cadastrar(@RequestBody Cliente cliente) {
 
-        cliente.setId(1L);
+        if(cliente.getNome().length() < 3) {
+            return ResponseEntity.unprocessableEntity().build();
+        }
+
+        Random gerar = new Random();
+        int nAleatorio = gerar.nextInt(99);
+
+        cliente.setId(Long.valueOf(nAleatorio));
         cliente.setDataCadastro(new Date());
         cliente.setTotalGasto(0.00);
         cliente.setComprasRealizadas(0);
