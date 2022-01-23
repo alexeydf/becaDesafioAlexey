@@ -15,9 +15,9 @@ public class PizzaController {
     public ResponseEntity<Pizza> criarNovo(@RequestBody Pizza pizza) {
 
         Random gerar = new Random();
-        int nAleatorio = gerar.nextInt(99);
+        int numeroAleatorio = gerar.nextInt(99);
 
-        pizza.setId(Long.valueOf(nAleatorio));
+        pizza.setId(Long.valueOf(numeroAleatorio));
 
         if(pizza.getPreco() < 0) {
             return ResponseEntity.unprocessableEntity().build();

@@ -6,19 +6,26 @@ import java.util.List;
 public class Venda {
 
     private Long id;
-    private Integer quantidadeTotal;
     private Double valorTotal;
-    private Date dataVenda;
+    private Date data;
     private Cliente cliente;
+    private List<ItemVenda> itens;
+
+    public List<ItemVenda> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemVenda> itens) {
+        this.itens = itens;
+    }
 
     public Venda() {
     }
 
-    public Venda(Long id, Integer quantidadeTotal, Double valorTotal, Date dataVenda, Cliente cliente) {
+    public Venda(Long id, Date data, Cliente cliente) {
         this.id = id;
-        this.quantidadeTotal = quantidadeTotal;
         this.valorTotal = valorTotal;
-        this.dataVenda = dataVenda;
+        this.data = data;
         this.cliente = cliente;
     }
 
@@ -31,27 +38,33 @@ public class Venda {
     }
 
     public Integer getQuantidadeTotal() {
+        Integer quantidadeTotal = 0;
+
+        for (ItemVenda item: this.itens) {
+            quantidadeTotal += item.getQuantidade();
+        }
+
         return quantidadeTotal;
     }
 
-    public void setQuantidadeTotal(Integer quantidadeTotal) {
-        this.quantidadeTotal = quantidadeTotal;
-    }
-
     public Double getValorTotal() {
-        return valorTotal;
+        Double valorTotalCalculado = 0.0;
+
+        for (ItemVenda item: this.itens) {
+            valorTotalCalculado += item.getValorTotal();
+        }
+
+        this.valorTotal = valorTotalCalculado;
+
+        return this.valorTotal;
     }
 
-    public void setValorTotal(Double valorTotal) {
-        this.valorTotal = valorTotal;
+    public Date getData() {
+        return data;
     }
 
-    public Date getDataVenda() {
-        return dataVenda;
-    }
-
-    public void setDataVenda(Date dataVenda) {
-        this.dataVenda = dataVenda;
+    public void setData(Date data) {
+        this.data = data;
     }
 
     public Cliente getCliente() {

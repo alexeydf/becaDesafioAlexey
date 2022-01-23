@@ -6,7 +6,6 @@ public class ItemVenda {
     private Pizza pizza;
     private Integer quantidade;
     private Double preco;
-    private Venda venda;
 
     public ItemVenda() {
     }
@@ -50,11 +49,7 @@ public class ItemVenda {
         this.preco = preco;
     }
 
-    public Venda getVenda() {
-        return venda;
-    }
-
-    public void setVenda(Venda venda) {
-        this.venda = venda;
+    public Double getValorTotal() {
+        return this.preco * this.quantidade;
     }
 }

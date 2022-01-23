@@ -21,9 +21,9 @@ public class ClienteController {
         }
 
         Random gerar = new Random();
-        int nAleatorio = gerar.nextInt(99);
+        int numeroAleatorio = gerar.nextInt(99);
 
-        cliente.setId(Long.valueOf(nAleatorio));
+        cliente.setId(Long.valueOf(numeroAleatorio));
         cliente.setDataCadastro(new Date());
         cliente.setTotalGasto(0.00);
         cliente.setComprasRealizadas(0);

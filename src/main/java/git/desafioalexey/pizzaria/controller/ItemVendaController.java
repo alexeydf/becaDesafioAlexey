@@ -18,17 +18,10 @@ public class ItemVendaController {
     @PostMapping("/registrar")
     public ResponseEntity<ItemVenda> registrar(@RequestBody ItemVenda item){
 
-        Cliente cliente2 = new Cliente(2L,"Thanan", "Guara 1", "61 999996669", "t@l.com");
-        Venda venda1 = new Venda(2L, 0, 100.00,new Date(),cliente2);
-
         Random gerar = new Random();
-        int nAleatorio = gerar.nextInt(99);
+        int numeroAleatorio = gerar.nextInt(99);
 
-        item.setId(Long.valueOf(nAleatorio));
-        item.setVenda(venda1);
-
-        venda1.setValorTotal(venda1.getValorTotal() + (item.getPreco() * item.getQuantidade()));
-        venda1.setQuantidadeTotal(item.getQuantidade());
+        item.setId(Long.valueOf(numeroAleatorio));
 
         return ResponseEntity.created(null).body(item);
     }
