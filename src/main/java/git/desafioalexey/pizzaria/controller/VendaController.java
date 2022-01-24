@@ -15,9 +15,8 @@ import java.util.Random;
 @RequestMapping("/venda")
 public class VendaController {
 
-    @PostMapping("/criar")
+    @PostMapping
     public ResponseEntity<Venda> criar(@RequestBody Venda venda) {
-
         Pizza pizza = new Pizza(1L,"Chocolate", "Doce", 20.0);
         ItemVenda item = new ItemVenda(1L, pizza, 2, 20.0);
         ItemVenda item2 = new ItemVenda(1L, pizza, 5, 20.0);
@@ -33,9 +32,8 @@ public class VendaController {
         return ResponseEntity.created(null).body(venda);
     }
 
-    @PatchMapping("/atualizar/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<Venda> atualizar(@RequestBody Venda venda,@PathVariable Long id) {
-
         Pizza pizza = new Pizza(1L,"Chocolate", "Doce", 20.0);
         ItemVenda item = new ItemVenda(1L, pizza, 2, 20.0);
         ItemVenda item2 = new ItemVenda(1L, pizza, 5, 20.0);
@@ -49,12 +47,12 @@ public class VendaController {
         return ResponseEntity.ok(venda);
     }
 
-    @GetMapping("/listar/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<Venda> listarPorId(@PathVariable Long id) {
         Cliente cliente = new Cliente(1L,"Alexey", "Guara 1", "61 999996666", "a@l.com");
 
-
         Pizza pizza = new Pizza(1L,"Chocolate", "Doce", 20.0);
+        
         ItemVenda item = new ItemVenda(1L, pizza, 2, 20.0);
         ItemVenda item2 = new ItemVenda(1L, pizza, 5, 20.0);
 
@@ -66,7 +64,7 @@ public class VendaController {
         return ResponseEntity.ok(venda);
     }
 
-    @GetMapping("/listar")
+    @GetMapping
     public ResponseEntity<List<Venda>> litar() {
         Cliente cliente1 = new Cliente(1L,"Alexey", "Guara 1", "61 999996666", "a@l.com");
         Cliente cliente2 = new Cliente(2L,"Thanan", "Guara 1", "61 999996669", "t@l.com");
@@ -79,7 +77,6 @@ public class VendaController {
         Venda venda2 = new Venda(3L, new Date(),cliente2);
         Venda venda3 = new Venda(5L, new Date(),cliente1);
 
-
         venda1.setItens(List.of(
                 item, item2
         ));
@@ -90,13 +87,12 @@ public class VendaController {
                 item2
         ));
 
-
         List<Venda> vendas = List.of(venda1, venda2, venda3);
 
         return ResponseEntity.ok(vendas);
     }
 
-    @DeleteMapping("/excluir/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> excluir(@PathVariable Long id) {
         return ResponseEntity.noContent().build();
     }

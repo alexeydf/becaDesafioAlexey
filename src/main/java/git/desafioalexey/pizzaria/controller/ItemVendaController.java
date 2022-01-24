@@ -15,9 +15,8 @@ import java.util.Random;
 @RequestMapping("/item")
 public class ItemVendaController {
 
-    @PostMapping("/registrar")
+    @PostMapping
     public ResponseEntity<ItemVenda> registrar(@RequestBody ItemVenda item){
-
         Random gerar = new Random();
         int numeroAleatorio = gerar.nextInt(99);
 
@@ -26,15 +25,14 @@ public class ItemVendaController {
         return ResponseEntity.created(null).body(item);
     }
 
-    @PatchMapping("/atualizar/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<ItemVenda> atualizar(@RequestBody ItemVenda item, @PathVariable Long id) {
-
         item.setId(id);
 
         return ResponseEntity.ok(item);
     }
 
-    @GetMapping("/listar/id/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ItemVenda> listarPorId(@PathVariable Long id) {
         Pizza pizza1 = new Pizza(1L, "Calabresa", "Tradicional", 52.69);
         ItemVenda item = new ItemVenda(id, pizza1, 1, 52.69);
@@ -42,9 +40,8 @@ public class ItemVendaController {
         return ResponseEntity.ok(item);
     }
 
-    @GetMapping("/listar")
+    @GetMapping
     public ResponseEntity<List<ItemVenda>> listar() {
-
         Pizza pizza1 = new Pizza(1L, "Calabresa", "Tradicional", 52.69);
         Pizza pizza2 = new Pizza(2L, "Chocolate", "Doce", 42.69);
         ItemVenda item1 = new ItemVenda(1L, pizza1, 1, pizza1.getPreco());
@@ -54,10 +51,9 @@ public class ItemVendaController {
         List<ItemVenda> itens = List.of(item1, item2, item3);
 
         return ResponseEntity.ok(itens);
-
     }
 
-    @DeleteMapping("/excluir/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<String> excluir(@PathVariable Long id) {
         return ResponseEntity.noContent().build();
     }
