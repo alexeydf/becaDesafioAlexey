@@ -1,0 +1,530 @@
+{
+	"info": {
+		"_postman_id": "7b79ffb8-19c3-49c4-bca2-7d5ae55aa85c",
+		"name": "API Pizzaria",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Pizza - Criar nova pizza",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"sabor\": \"Calabresa\",\r\n   \"tipo\": \"Tradicional\" ,\r\n   \"preco\": 48.98\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/pizza/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pizza",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pizza - Atualizar registro",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n   \"sabor\": \"Calabresa\",\r\n   \"tipo\": \"Tradicional\" ,\r\n   \"preco\": 48.90\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/pizza/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pizza",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pizza - Excluir registro",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/pizza/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pizza",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pizza - Listar registro por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/pizza/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pizza",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pizza - Listar registros",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/pizza/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pizza",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pizza - Listar registro por sabor",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/pizza/sabor/chocolate",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pizza",
+						"sabor",
+						"chocolate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cliente - Cadastar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n   \"nome\": \"Ale\",\r\n   \"endereco\": \"Guará I\",\r\n   \"telefone\": \"61 998989898\",\r\n   \"email\": \"alexey@eu.com\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/cliente/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cliente",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cliente - Atualizar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"nome\": \"Alexey\",\r\n    \"endereco\": \"Guará I\",\r\n    \"telefone\": \"61 998989898\",\r\n    \"email\": \"alexey@eu.com\",\r\n    \"comprasRealizadas\": 0,\r\n    \"totalGasto\": 0.0,\r\n    \"dataCadastro\": \"2022-01-21T18:39:40.184+00:00\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/cliente/5",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cliente",
+						"5"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cliente - Listar por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/cliente/9",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cliente",
+						"9"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cliente - Listar por nome",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/cliente/nome/alexey",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cliente",
+						"nome",
+						"alexey"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cliente - Listar todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/cliente/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cliente",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Cliente - Excluir",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/cliente/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cliente",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ItemVenda - Registrar ",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pizza\": {\r\n        \"id\": 1,\r\n        \"sabor\": \"Calabresa\",\r\n        \"tipo\": \"Tradicional\",\r\n        \"preco\": 50.00\r\n    },\r\n    \"quantidade\": 2,\r\n    \"preco\": 50.00\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/item/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"item",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ItemVenda - Atualizar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"pizza\": {\r\n        \"id\": 1,\r\n        \"sabor\": \"Calabresa\",\r\n        \"tipo\": \"Tradicional\" ,\r\n        \"preco\": 48.98\r\n    },\r\n    \"quantidade\": 1,\r\n    \"preco\": 48.98\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/item/12",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"item",
+						"12"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ItemVenda - Listar por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/item/225",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"item",
+						"225"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ItemVenda - Listar todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/item/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"item",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ItemVenda - Excluir",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/item/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"item",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Venda - Criar",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cliente\": {\r\n        \"id\": 1,\r\n        \"nome\": \"Alexey\",\r\n        \"endereco\": \"Guará I\",\r\n        \"telefone\": \"61 998989898\",\r\n        \"email\": \"alexey@eu.com\",\r\n        \"comprasRealizadas\": 0,\r\n        \"totalGasto\": 0.0,\r\n        \"dataCadastro\": \"2022-01-22T19:44:37.982+00:00\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/venda/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"venda",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Venda - Atualizar",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"id\": 1,\r\n    \"quantidadeTotal\": 0,\r\n    \"valorTotal\": 0.0,\r\n    \"data\": \"2022-01-22T20:03:54.054+00:00\",\r\n    \"cliente\": {\r\n        \"id\": 1,\r\n        \"nome\": \"Alexey\",\r\n        \"endereco\": \"Guará I\",\r\n        \"telefone\": \"61 998989898\",\r\n        \"email\": \"alexey@eu.com\",\r\n        \"comprasRealizadas\": 0,\r\n        \"totalGasto\": 0.0,\r\n        \"dataCadastro\": \"2022-01-22T19:44:37.982+00:00\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/venda/23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"venda",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Venda - Listar por ID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/venda/6",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"venda",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Venda - Listar todos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/venda/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"venda",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Venda - Excluir",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/venda/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"venda",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
