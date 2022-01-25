@@ -1,9 +1,9 @@
-package git.desafioalexey.pizzaria.controller;
+package git.desafioalexey.pizzaria.controllers;
 
-import git.desafioalexey.pizzaria.modelo.Cliente;
-import git.desafioalexey.pizzaria.modelo.ItemVenda;
-import git.desafioalexey.pizzaria.modelo.Pizza;
-import git.desafioalexey.pizzaria.modelo.Venda;
+import git.desafioalexey.pizzaria.models.Cliente;
+import git.desafioalexey.pizzaria.models.ItemVenda;
+import git.desafioalexey.pizzaria.models.Pizza;
+import git.desafioalexey.pizzaria.models.Venda;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -52,7 +52,7 @@ public class VendaController {
         Cliente cliente = new Cliente(1L,"Alexey", "Guara 1", "61 999996666", "a@l.com");
 
         Pizza pizza = new Pizza(1L,"Chocolate", "Doce", 20.0);
-        
+
         ItemVenda item = new ItemVenda(1L, pizza, 2, 20.0);
         ItemVenda item2 = new ItemVenda(1L, pizza, 5, 20.0);
 

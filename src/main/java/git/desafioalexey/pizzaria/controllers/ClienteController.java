@@ -1,7 +1,6 @@
-package git.desafioalexey.pizzaria.controller;
+package git.desafioalexey.pizzaria.controllers;
 
-import git.desafioalexey.pizzaria.modelo.Cliente;
-import git.desafioalexey.pizzaria.modelo.Pizza;
+import git.desafioalexey.pizzaria.models.Cliente;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
