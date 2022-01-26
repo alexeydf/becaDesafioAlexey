@@ -14,7 +14,7 @@ public class ClienteService implements CrudInterface<Cliente> {
     @Override
     public Cliente criar(Cliente cliente) {
         if(cliente.getNome().length() < 3) {
-            throw new RuntimeException("O nome deve conter 3 ou mais caractéres!");
+            throw new RuntimeException("O nome deve conter 3 letras ou mais!");
         }
 
         Random gerar = new Random();

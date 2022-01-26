@@ -1,11 +1,7 @@
 package git.desafioalexey.pizzaria.services;
 
 import git.desafioalexey.pizzaria.models.Pizza;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 import java.util.Random;
@@ -13,14 +9,18 @@ import java.util.Random;
 @Service
 public class PizzaService implements CrudInterface<Pizza> {
     public Pizza criar( Pizza pizza) {
-        Random gerar = new Random();
-        int numeroAleatorio = gerar.nextInt(99);
-
-        pizza.setId(Long.valueOf(numeroAleatorio));
+        if(pizza.getSabor().length() < 3 || pizza.getTipo().length() < 3) {
+            throw new RuntimeException("Caracteres insuficientes. Informe 3 caracteres ou mais!");
+        }
 
         if(pizza.getPreco() < 0) {
             throw new RuntimeException("Preço informado não é válido!");
         }
+
+        Random gerar = new Random();
+        int numeroAleatorio = gerar.nextInt(99);
+
+        pizza.setId(Long.valueOf(numeroAleatorio));
 
         return pizza;
     }
