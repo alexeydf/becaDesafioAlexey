@@ -20,3 +20,7 @@ API feita para controlar as vendas de uma pizzaria.
 <p>Neste desafio foram criados os controllers de nossa API.</p>
 <p>Foi implementado o ResponseEntity para manipular as respostas HTTP. Juntamente foi utilizado o <a href="https://www.postman.com/">Postman</a> para a realização dos testes.</p>
 <p>Foi criado a documentação da API com base na especificação OpenAPI 3. Para isso foi adicionada a dependência springdoc-openapi-ui ao nosso pom.xml.</p>
+
+## Desafio 03
+<p>Neste desafio criamos as classes Services de nossa API, que foi integrado com as classes Controllers.</p>
+<p>Foi criado uma interface onde foram criados métodos para a realização do CRUD.</p>

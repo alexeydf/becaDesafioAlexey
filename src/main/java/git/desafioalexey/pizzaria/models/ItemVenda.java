@@ -42,6 +42,7 @@ public class ItemVenda {
     }
 
     public Double getPreco() {
+        this.preco = this.pizza.getPreco();
         return preco;
     }
 

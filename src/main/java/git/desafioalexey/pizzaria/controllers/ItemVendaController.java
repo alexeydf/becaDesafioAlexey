@@ -2,6 +2,8 @@ package git.desafioalexey.pizzaria.controllers;
 
 import git.desafioalexey.pizzaria.models.ItemVenda;
 import git.desafioalexey.pizzaria.models.Pizza;
+import git.desafioalexey.pizzaria.services.ItemVendaService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,46 +14,41 @@ import java.util.Random;
 @RequestMapping("/item")
 public class ItemVendaController {
 
+    @Autowired
+    private ItemVendaService itemVendaService;
+
     @PostMapping
     public ResponseEntity<ItemVenda> registrar(@RequestBody ItemVenda item){
-        Random gerar = new Random();
-        int numeroAleatorio = gerar.nextInt(99);
+        ItemVenda itemVendaRegistrado = itemVendaService.criar(item);
 
-        item.setId(Long.valueOf(numeroAleatorio));
-
-        return ResponseEntity.created(null).body(item);
+        return ResponseEntity.created(null).body(itemVendaRegistrado);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<ItemVenda> atualizar(@RequestBody ItemVenda item, @PathVariable Long id) {
-        item.setId(id);
+        ItemVenda itemVendaAtualizado = itemVendaService.atualizar(item, id);
 
-        return ResponseEntity.ok(item);
+        return ResponseEntity.ok(itemVendaAtualizado);
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ItemVenda> listarPorId(@PathVariable Long id) {
-        Pizza pizza1 = new Pizza(1L, "Calabresa", "Tradicional", 52.69);
-        ItemVenda item = new ItemVenda(id, pizza1, 1, 52.69);
+        ItemVenda listadoPorId = itemVendaService.listarPorId(id);
 
-        return ResponseEntity.ok(item);
+        return ResponseEntity.ok(listadoPorId);
     }
 
     @GetMapping
     public ResponseEntity<List<ItemVenda>> listar() {
-        Pizza pizza1 = new Pizza(1L, "Calabresa", "Tradicional", 52.69);
-        Pizza pizza2 = new Pizza(2L, "Chocolate", "Doce", 42.69);
-        ItemVenda item1 = new ItemVenda(1L, pizza1, 1, pizza1.getPreco());
-        ItemVenda item2 = new ItemVenda(2L, pizza2, 1, pizza2.getPreco());
-        ItemVenda item3 = new ItemVenda(3L, pizza1, 1, pizza1.getPreco());
+        List<ItemVenda> listados = itemVendaService.listarTodos();
 
-        List<ItemVenda> itens = List.of(item1, item2, item3);
-
-        return ResponseEntity.ok(itens);
+        return ResponseEntity.ok(listados);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> excluir(@PathVariable Long id) {
+        itemVendaService.excluir(id);
+
         return ResponseEntity.noContent().build();
     }
 }

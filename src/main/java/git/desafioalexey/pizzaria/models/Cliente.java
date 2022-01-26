@@ -14,6 +14,9 @@ public class Cliente {
     private Date dataCadastro;
 
     public Cliente() {
+        this.dataCadastro = new Date();
+        this.totalGasto = 0.0;
+        this.comprasRealizadas = 0;
     }
 
     public Cliente(Long id,String nome, String endereco, String telefone, String email) {

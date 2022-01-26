@@ -1,6 +1,8 @@
 package git.desafioalexey.pizzaria.controllers;
 
 import git.desafioalexey.pizzaria.models.Cliente;
+import git.desafioalexey.pizzaria.services.ClienteService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,71 +14,48 @@ import java.util.Random;
 @RequestMapping("/cliente")
 public class ClienteController {
 
+    @Autowired
+    private ClienteService clienteService;
+
     @PostMapping
     public ResponseEntity<Cliente> cadastrar(@RequestBody Cliente cliente) {
-        if(cliente.getNome().length() < 3) {
-            return ResponseEntity.unprocessableEntity().build();
-        }
+       Cliente clienteCriado = clienteService.criar(cliente);
 
-        Random gerar = new Random();
-        int numeroAleatorio = gerar.nextInt(99);
-
-        cliente.setId(Long.valueOf(numeroAleatorio));
-        cliente.setDataCadastro(new Date());
-        cliente.setTotalGasto(0.00);
-        cliente.setComprasRealizadas(0);
-
-        return ResponseEntity.created(null).body(cliente);
+        return ResponseEntity.created(null).body(clienteCriado);
     }
 
     @PatchMapping("/{id}")
     public ResponseEntity<Cliente> atualizarCadastro(@RequestBody Cliente cliente, @PathVariable Long id) {
-        cliente.setId(id);
+        Cliente clienteAtualizado = clienteService.atualizar(cliente, id);
 
-        return ResponseEntity.ok(cliente);
+        return ResponseEntity.ok(clienteAtualizado);
 
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Cliente> listarPorId(@PathVariable Long id) {
-        Cliente cliente = new Cliente(id,"Alexey Braga", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
-        cliente.setComprasRealizadas(0);
-        cliente.setTotalGasto(0.0);
+        Cliente clienteListadoPorId = clienteService.listarPorId(id);
 
-        return ResponseEntity.ok(cliente);
+        return ResponseEntity.ok(clienteListadoPorId);
     }
 
     @GetMapping("/nome/{nome}")
     public ResponseEntity<Cliente> listarPorNome(@PathVariable String nome) {
-        Cliente cliente1 = new Cliente(1L,"Alexey", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
-        Cliente cliente2 = new Cliente(2L,"Thanan", "Qi 06 cj z 32", "61 955665566", "ale@g.com");
-        Cliente cliente3 = new Cliente(3L,"Victor", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
+        Cliente clienteListadoPorNome = clienteService.listarPorNome(nome);
 
-        List<Cliente> clientes = List.of(cliente1, cliente2, cliente3);
-
-        for (Cliente cliente: clientes) {
-            if (cliente.getNome().equalsIgnoreCase(nome)) {
-                Cliente saborPesquisado = cliente;
-                return ResponseEntity.ok(saborPesquisado);
-            }
-        }
-
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok(clienteListadoPorNome);
     }
 
     @GetMapping
     public ResponseEntity<List<Cliente>> listarTodos(){
-        Cliente cliente1 = new Cliente(1L,"Alexey", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
-        Cliente cliente2 = new Cliente(2L,"Thanan", "Qi 06 cj z 32", "61 955665566", "ale@g.com");
-        Cliente cliente3 = new Cliente(3L,"Victor", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
+        List<Cliente> listados = clienteService.listarTodos();
 
-        List<Cliente> clientes = List.of(cliente1, cliente2, cliente3);
-
-        return ResponseEntity.ok(clientes);
+        return ResponseEntity.ok(listados);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> excluir(@PathVariable Long id) {
+        clienteService.excluir(id);
         return ResponseEntity.noContent().build();
     }
 }

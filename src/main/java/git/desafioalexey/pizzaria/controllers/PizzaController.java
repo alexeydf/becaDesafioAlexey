@@ -27,7 +27,7 @@ public class PizzaController {
     public ResponseEntity<Pizza> atualizarRegistro(@RequestBody Pizza pizza, @PathVariable Long id) {
         Pizza pizzaAtualizada = pizzaService.atualizar(pizza,id);
 
-        return ResponseEntity.ok(pizza);
+        return ResponseEntity.ok(pizzaAtualizada);
     }
 
     @GetMapping("/{id}")
@@ -54,7 +54,7 @@ public class PizzaController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> excluirRegistro(@PathVariable Long id) {
         pizzaService.excluir(id);
-        
+
         return ResponseEntity.noContent().build();
     }
 }
