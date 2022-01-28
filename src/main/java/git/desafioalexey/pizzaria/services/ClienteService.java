@@ -1,6 +1,8 @@
 package git.desafioalexey.pizzaria.services;
 
 import git.desafioalexey.pizzaria.models.Cliente;
+import git.desafioalexey.pizzaria.repositorys.ClienteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,51 +13,51 @@ import java.util.Random;
 
 @Service
 public class ClienteService implements CrudInterface<Cliente> {
+
+    @Autowired
+    private ClienteRepository clienteRepository;
+
     @Override
     public Cliente criar(Cliente cliente) {
         if(cliente.getNome().length() < 3) {
             throw new RuntimeException("O nome deve conter 3 letras ou mais!");
         }
 
-        Random gerar = new Random();
-        int numeroAleatorio = gerar.nextInt(99);
+        Cliente clienteCriado = clienteRepository.save(cliente);
 
-        cliente.setId(Long.valueOf(numeroAleatorio));
-
-        return cliente;
+        return clienteCriado;
     }
 
     @Override
     public Cliente atualizar(Cliente cliente, Long id) {
-        cliente.setId(id);
+        Cliente clienteEncotrado = clienteRepository.findById(id).get();
 
-        return cliente;
+        clienteEncotrado.setNome(cliente.getNome());
+        clienteEncotrado.setEndereco(cliente.getEndereco());
+        clienteEncotrado.setEmail(cliente.getEmail());
+        clienteEncotrado.setTelefone(cliente.getTelefone());
+
+        clienteRepository.save(clienteEncotrado);
+
+        return clienteEncotrado;
     }
 
     @Override
     public List<Cliente> listarTodos() {
-        Cliente cliente1 = new Cliente(1L,"Alexey", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
-        Cliente cliente2 = new Cliente(2L,"Thanan", "Qi 06 cj z 32", "61 955665566", "ale@g.com");
-        Cliente cliente3 = new Cliente(3L,"Victor", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
-
-        List<Cliente> clientes = List.of(cliente1, cliente2, cliente3);
+        List<Cliente> clientes = clienteRepository.findAll();
 
         return clientes;
     }
 
     @Override
     public Cliente listarPorId(Long id) {
-        Cliente cliente = new Cliente(id,"Alexey Braga", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
+        Cliente clienteListado = clienteRepository.findById(id).get();
 
-        return cliente;
+        return clienteListado;
     }
 
     public Cliente listarPorNome(String nome) {
-        Cliente cliente1 = new Cliente(1L,"Alexey", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
-        Cliente cliente2 = new Cliente(2L,"Thanan", "Qi 06 cj z 32", "61 955665566", "ale@g.com");
-        Cliente cliente3 = new Cliente(3L,"Victor", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
-
-        List<Cliente> clientes = List.of(cliente1, cliente2, cliente3);
+        List<Cliente> clientes = clienteRepository.findAll();
 
         for (Cliente cliente: clientes) {
             if (cliente.getNome().equalsIgnoreCase(nome)) {
@@ -69,6 +71,8 @@ public class ClienteService implements CrudInterface<Cliente> {
 
     @Override
     public void excluir(Long id) {
-        //
+        Cliente clienteLocalizado = clienteRepository.findById(id).get();
+
+        clienteRepository.delete(clienteLocalizado);
     }
 }

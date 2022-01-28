@@ -1,6 +1,9 @@
 package git.desafioalexey.pizzaria.services;
 
 import git.desafioalexey.pizzaria.models.Pizza;
+import git.desafioalexey.pizzaria.repositorys.PizzaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -8,6 +11,10 @@ import java.util.Random;
 
 @Service
 public class PizzaService implements CrudInterface<Pizza> {
+
+    @Autowired
+    private PizzaRepository pizzaRepository;
+
     public Pizza criar( Pizza pizza) {
         if(pizza.getSabor().length() < 3 || pizza.getTipo().length() < 3) {
             throw new RuntimeException("Caracteres insuficientes. Informe 3 caracteres ou mais!");
@@ -17,32 +24,32 @@ public class PizzaService implements CrudInterface<Pizza> {
             throw new RuntimeException("Preço informado não é válido!");
         }
 
-        Random gerar = new Random();
-        int numeroAleatorio = gerar.nextInt(99);
+        Pizza pizzaCriada =  pizzaRepository.save(pizza);
 
-        pizza.setId(Long.valueOf(numeroAleatorio));
-
-        return pizza;
+        return pizzaCriada;
     }
 
     public Pizza atualizar(Pizza pizza, Long id) {
-        pizza.setId(id);
+        Pizza pizzaEncontrada = this.listarPorId(id);
 
-        return pizza;
+        pizzaEncontrada.setSabor(pizza.getSabor());
+        pizzaEncontrada.setTipo(pizza.getTipo());
+        pizzaEncontrada.setPreco(pizza.getPreco());
+
+        pizzaRepository.save(pizzaEncontrada);
+
+        return pizzaEncontrada;
     }
 
     public Pizza listarPorId(Long id) {
-        Pizza pizza1 = new Pizza(id,"Calabresa", "Tradicional", 52.69);
+        Pizza pizzaLocalizada = pizzaRepository.findById(id).get();
 
-        return pizza1;
+        return pizzaLocalizada;
     }
 
     public Pizza listarPorSabor(String sabor) {
-        Pizza pizza1 = new Pizza(1L,"Calabresa", "Tradicional", 52.69);
-        Pizza pizza2 = new Pizza(2L,"Chocolate", "Doce", 49.69);
-        Pizza pizza3 = new Pizza(3L,"Peperoni", "Especial", 63.69);
 
-        List<Pizza> pizzas = List.of(pizza1, pizza2, pizza3);
+        List<Pizza> pizzas = pizzaRepository.findAll();
 
         for (Pizza pizza: pizzas) {
             if (pizza.getSabor().equalsIgnoreCase(sabor)) {
@@ -55,16 +62,14 @@ public class PizzaService implements CrudInterface<Pizza> {
     }
 
     public List<Pizza> listarTodos() {
-        Pizza pizza1 = new Pizza(1L, "Calabresa", "Tradicional", 52.69);
-        Pizza pizza2 = new Pizza(2L, "Chocolate", "Doce", 49.69);
-        Pizza pizza3 = new Pizza(3L, "Peperoni", "Especial", 63.69);
-
-        List<Pizza> pizzas = List.of(pizza1, pizza2, pizza3);
+        List<Pizza> pizzas = pizzaRepository.findAll();
 
         return pizzas;
     }
 
     public void excluir(Long id) {
-        //
+        Pizza pizzaLocalizada = pizzaRepository.findById(id).get();
+
+        pizzaRepository.delete(pizzaLocalizada);
     }
 }
