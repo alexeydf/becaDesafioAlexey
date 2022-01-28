@@ -1,4 +1,4 @@
-package git.desafioalexey.pizzaria.modelo;
+package git.desafioalexey.pizzaria.models;
 
 public class ItemVenda {
 

@@ -1,10 +1,10 @@
 package git.desafioalexey.pizzaria.controller;
 
-import git.desafioalexey.pizzaria.modelo.Cliente;
-import git.desafioalexey.pizzaria.modelo.Pizza;
+import git.desafioalexey.pizzaria.models.Cliente;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -48,21 +48,27 @@ public class ClienteController {
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<Cliente> listarPorNome(@PathVariable String nome) {
+    public ResponseEntity<List<Cliente>> listarPorNome(@PathVariable String nome) {
         Cliente cliente1 = new Cliente(1L,"Alexey", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
         Cliente cliente2 = new Cliente(2L,"Thanan", "Qi 06 cj z 32", "61 955665566", "ale@g.com");
         Cliente cliente3 = new Cliente(3L,"Victor", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
+        Cliente cliente4 = new Cliente(4L,"Alexey", "Qi 06 cj z 32", "61 983122366", "ale@g.com");
 
-        List<Cliente> clientes = List.of(cliente1, cliente2, cliente3);
+        List<Cliente> clientes = List.of(cliente1, cliente2, cliente3, cliente4);
+
+        List<Cliente> clientesPesquisados = new ArrayList<>();
 
         for (Cliente cliente: clientes) {
             if (cliente.getNome().equalsIgnoreCase(nome)) {
-                Cliente saborPesquisado = cliente;
-                return ResponseEntity.ok(saborPesquisado);
+                clientesPesquisados.add(cliente);
             }
         }
 
-        return ResponseEntity.noContent().build();
+        if (clientesPesquisados.size() == 0) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(clientesPesquisados);
     }
 
     @GetMapping
