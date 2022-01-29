@@ -1,23 +1,24 @@
 package git.desafioalexey.pizzaria.models;
 
+import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 public class Venda {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Double valorTotal;
     private Date data;
+
+    @ManyToOne
     private Cliente cliente;
+
+    @OneToMany
     private List<ItemVenda> itens;
-
-    public List<ItemVenda> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<ItemVenda> itens) {
-        this.itens = itens;
-    }
 
     public Venda() {
     }
@@ -73,5 +74,13 @@ public class Venda {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public List<ItemVenda> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemVenda> itens) {
+        this.itens = itens;
     }
 }

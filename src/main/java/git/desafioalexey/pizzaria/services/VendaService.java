@@ -4,6 +4,8 @@ import git.desafioalexey.pizzaria.models.Cliente;
 import git.desafioalexey.pizzaria.models.ItemVenda;
 import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.models.Venda;
+import git.desafioalexey.pizzaria.repositorys.VendaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -13,9 +15,19 @@ import java.util.Random;
 
 @Service
 public class VendaService implements CrudInterface<Venda>{
+
+    @Autowired
+    private VendaRepository vendaRepository;
+
+    @Autowired
+    private ItemVendaService itemVendaService;
+
+    @Autowired
+    private ClienteService clienteService;
+
     @Override
     public Venda criar(Venda venda) {
-        Pizza pizza = new Pizza(1L,"Chocolate", "Doce", 20.0);
+        /*Pizza pizza = new Pizza(1L,"Chocolate", "Doce", 20.0);
 
         ItemVenda item = new ItemVenda(1L, pizza, 2, 20.0);
         ItemVenda item2 = new ItemVenda(1L, pizza, 5, 20.0);
@@ -27,9 +39,21 @@ public class VendaService implements CrudInterface<Venda>{
         venda.setData(new Date());
         venda.setItens(List.of(
                 item, item2
-        ));
+        ));*/
 
-        return venda;
+        Cliente cliente = clienteService.listarPorId(venda.getCliente().getId());
+        cliente.setComprasRealizadas(cliente.getComprasRealizadas() + 1);
+
+        venda.setCliente(cliente);
+
+        List<ItemVenda> itens = itemVendaService.listarTodos();
+        venda.setItens(itens);
+
+        cliente.setTotalGasto(cliente.getTotalGasto() + venda.getValorTotal());
+
+        Venda vendaCriada = vendaRepository.save(venda);
+
+        return vendaCriada;
     }
 
     @Override
