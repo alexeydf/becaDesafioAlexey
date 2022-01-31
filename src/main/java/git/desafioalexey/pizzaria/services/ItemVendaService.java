@@ -2,11 +2,13 @@ package git.desafioalexey.pizzaria.services;
 
 import git.desafioalexey.pizzaria.models.ItemVenda;
 import git.desafioalexey.pizzaria.models.Pizza;
+import git.desafioalexey.pizzaria.models.Venda;
 import git.desafioalexey.pizzaria.repositorys.ItemVendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -19,11 +21,28 @@ public class ItemVendaService implements CrudInterface<ItemVenda> {
     @Autowired
     private PizzaService pizzaService;
 
+    @Autowired
+    private VendaService vendaService;
+
     @Override
     public ItemVenda criar(ItemVenda item) {
         Pizza pizza = pizzaService.listarPorId(item.getPizza().getId());
+
         item.setPizza(pizza);
         item.setPreco(pizza.getPreco());
+
+        Venda venda = vendaService.listarPorId(item.getVenda().getId());
+        item.setVenda(venda);
+
+
+
+        List<ItemVenda> itens = this.listarTodos();
+
+       venda.setItens(itens);
+       item.getVenda().getValorTotal();
+
+       vendaService.criar(venda);
+
         ItemVenda itemVendaCriado = itemVendaRepository.save(item);
 
         return itemVendaCriado;

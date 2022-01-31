@@ -15,6 +15,10 @@ public class ItemVenda {
     private Integer quantidade;
     private Double preco;
 
+    @ManyToOne
+    @JoinColumn(name = "venda_id")
+    private Venda venda;
+
     public ItemVenda() {
     }
 
@@ -59,5 +63,13 @@ public class ItemVenda {
 
     public Double getValorTotal() {
         return this.preco * this.quantidade;
+    }
+
+    public Venda getVenda() {
+        return venda;
+    }
+
+    public void setVenda(Venda venda) {
+        this.venda = venda;
     }
 }

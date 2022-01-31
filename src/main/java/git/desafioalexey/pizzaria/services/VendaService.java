@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -19,8 +21,8 @@ public class VendaService implements CrudInterface<Venda>{
     @Autowired
     private VendaRepository vendaRepository;
 
-    @Autowired
-    private ItemVendaService itemVendaService;
+    /*@Autowired
+    private ItemVendaService itemVendaService;*/
 
     @Autowired
     private ClienteService clienteService;
@@ -45,8 +47,9 @@ public class VendaService implements CrudInterface<Venda>{
         cliente.setComprasRealizadas(cliente.getComprasRealizadas() + 1);
 
         venda.setCliente(cliente);
+        venda.setData(LocalDate.now());
 
-        List<ItemVenda> itens = itemVendaService.listarTodos();
+        List<ItemVenda> itens = new ArrayList<>();
         venda.setItens(itens);
 
         cliente.setTotalGasto(cliente.getTotalGasto() + venda.getValorTotal());
@@ -58,15 +61,17 @@ public class VendaService implements CrudInterface<Venda>{
 
     @Override
     public Venda atualizar(Venda venda, Long id) {
-        Pizza pizza = new Pizza(1L,"Chocolate", "Doce", 20.0);
-        ItemVenda item = new ItemVenda(1L, pizza, 2, 20.0);
-        ItemVenda item2 = new ItemVenda(1L, pizza, 5, 20.0);
+        /*
+        * Cliente clienteEncotrado = clienteRepository.findById(id).get();
 
-        venda.setItens(List.of(
-                item, item2
-        ));
+        clienteEncotrado.setNome(cliente.getNome());
+        clienteEncotrado.setEndereco(cliente.getEndereco());
+        clienteEncotrado.setEmail(cliente.getEmail());
+        clienteEncotrado.setTelefone(cliente.getTelefone());
 
-        venda.setId(id);
+        clienteRepository.save(clienteEncotrado);
+
+        return clienteEncotrado;*/
 
         return venda;
     }
@@ -81,9 +86,9 @@ public class VendaService implements CrudInterface<Venda>{
         ItemVenda item = new ItemVenda(1L, pizza, 2, 20.0);
         ItemVenda item2 = new ItemVenda(1L, pizza, 5, 20.0);
 
-        Venda venda1 = new Venda(2L,new Date(),cliente1);
-        Venda venda2 = new Venda(3L, new Date(),cliente2);
-        Venda venda3 = new Venda(5L, new Date(),cliente1);
+        Venda venda1 = new Venda(2L, LocalDate.now(),cliente1);
+        Venda venda2 = new Venda(3L, LocalDate.now(),cliente2);
+        Venda venda3 = new Venda(5L, LocalDate.now(),cliente1);
 
         venda1.setItens(List.of(
                 item, item2
@@ -102,17 +107,7 @@ public class VendaService implements CrudInterface<Venda>{
 
     @Override
     public Venda listarPorId(Long id) {
-        Cliente cliente = new Cliente(1L,"Alexey", "Guara 1", "61 999996666", "a@l.com");
-
-        Pizza pizza = new Pizza(1L,"Chocolate", "Doce", 20.0);
-
-        ItemVenda item = new ItemVenda(1L, pizza, 2, 20.0);
-        ItemVenda item2 = new ItemVenda(1L, pizza, 5, 20.0);
-
-        Venda venda = new Venda(id, new Date(),cliente);
-        venda.setItens(List.of(
-                item, item2
-        ));
+        Venda venda = vendaRepository.findById(id).get();
 
         return venda;
     }
