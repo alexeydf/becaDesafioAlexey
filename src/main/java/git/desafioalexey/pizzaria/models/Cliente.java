@@ -4,6 +4,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -18,10 +19,10 @@ public class Cliente {
     private String email;
     private Integer comprasRealizadas;
     private Double totalGasto;
-    private Date dataCadastro;
+    private LocalDate dataCadastro;
 
     public Cliente() {
-        this.dataCadastro = new Date();
+        this.dataCadastro = LocalDate.now();
         this.totalGasto = 0.0;
         this.comprasRealizadas = 0;
     }
@@ -32,7 +33,7 @@ public class Cliente {
         this.endereco = endereco;
         this.telefone = telefone;
         this.email = email;
-        this.dataCadastro = new Date();
+        this.dataCadastro = LocalDate.now();
         this.totalGasto = 0.0;
         this.comprasRealizadas = 0;
     }
@@ -93,11 +94,11 @@ public class Cliente {
         this.totalGasto = totalGasto;
     }
 
-    public Date getDataCadastro() {
+    public LocalDate getDataCadastro() {
         return dataCadastro;
     }
 
-    public void setDataCadastro(Date dataCadastro) {
+    public void setDataCadastro(LocalDate dataCadastro) {
         this.dataCadastro = dataCadastro;
     }
 }
