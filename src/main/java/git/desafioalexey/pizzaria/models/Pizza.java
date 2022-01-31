@@ -1,4 +1,4 @@
-package git.desafioalexey.pizzaria.modelo;
+package git.desafioalexey.pizzaria.models;
 
 public class Pizza {
 
@@ -10,7 +10,8 @@ public class Pizza {
     public Pizza() {
     }
 
-    public Pizza(String sabor, String tipo, Double preco) {
+    public Pizza(Long id, String sabor, String tipo, Double preco) {
+        this.id = id;
         this.sabor = sabor;
         this.tipo = tipo;
         this.preco = preco;

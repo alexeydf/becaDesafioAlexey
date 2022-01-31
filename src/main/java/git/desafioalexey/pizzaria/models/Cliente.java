@@ -1,4 +1,4 @@
-package git.desafioalexey.pizzaria.modelo;
+package git.desafioalexey.pizzaria.models;
 
 import java.util.Date;
 
@@ -14,14 +14,20 @@ public class Cliente {
     private Date dataCadastro;
 
     public Cliente() {
+        this.dataCadastro = new Date();
+        this.totalGasto = 0.0;
+        this.comprasRealizadas = 0;
     }
 
-    public Cliente(String nome, String endereco, String telefone, String email, Date dataCadastro) {
+    public Cliente(Long id,String nome, String endereco, String telefone, String email) {
+        this.id = id;
         this.nome = nome;
         this.endereco = endereco;
         this.telefone = telefone;
         this.email = email;
-        this.dataCadastro = dataCadastro;
+        this.dataCadastro = new Date();
+        this.totalGasto = 0.0;
+        this.comprasRealizadas = 0;
     }
 
     public Long getId() {
