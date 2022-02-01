@@ -15,10 +15,6 @@ public class ItemVenda {
     private Integer quantidade;
     private Double preco;
 
-    /*@ManyToOne
-    @JoinColumn(name = "venda_id")
-    private Venda venda;*/
-
     public ItemVenda() {
     }
 

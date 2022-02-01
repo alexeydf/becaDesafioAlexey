@@ -21,24 +21,27 @@ public class VendaService implements CrudInterface<Venda>{
     @Autowired
     private VendaRepository vendaRepository;
 
-    /*@Autowired
-    private ItemVendaService itemVendaService;*/
-
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private PizzaService pizzaService;
 
     @Override
     public Venda criar(Venda venda) {
         Cliente cliente = clienteService.listarPorId(venda.getCliente().getId());
         cliente.setComprasRealizadas(cliente.getComprasRealizadas() + 1);
+        cliente.setTotalGasto(cliente.getTotalGasto() + venda.getValorTotal());
 
         venda.setCliente(cliente);
         venda.setData(LocalDate.now());
 
-        List<ItemVenda> itens = venda.getItens();
-        venda.setItens(itens);
+        for (ItemVenda item: venda.getItens()) {
+            Pizza pizza = pizzaService.listarPorId(item.getPizza().getId());
 
-        cliente.setTotalGasto(cliente.getTotalGasto() + venda.getValorTotal());
+            item.setPizza(pizza);
+            item.setPreco(pizza.getPreco());
+        }
 
         Venda vendaCriada = vendaRepository.save(venda);
 

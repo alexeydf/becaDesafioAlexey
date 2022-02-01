@@ -26,14 +26,7 @@ public class ItemVendaService implements CrudInterface<ItemVenda> {
 
     @Override
     public ItemVenda criar(ItemVenda item) {
-        Pizza pizza = pizzaService.listarPorId(item.getPizza().getId());
-
-        item.setPizza(pizza);
-        item.setPreco(pizza.getPreco());
-
-        ItemVenda itemVendaCriado = itemVendaRepository.save(item);
-
-        return itemVendaCriado;
+        return null;
     }
 
     @Override
