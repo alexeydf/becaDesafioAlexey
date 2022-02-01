@@ -35,7 +35,7 @@ public class VendaService implements CrudInterface<Venda>{
         venda.setCliente(cliente);
         venda.setData(LocalDate.now());
 
-        List<ItemVenda> itens = new ArrayList<>();
+        List<ItemVenda> itens = venda.getItens();
         venda.setItens(itens);
 
         cliente.setTotalGasto(cliente.getTotalGasto() + venda.getValorTotal());
@@ -47,7 +47,7 @@ public class VendaService implements CrudInterface<Venda>{
 
     @Override
     public Venda atualizar(Venda venda, Long id) {
-        Venda vendaEncontrada = vendaRepository.findById(id).get();
+        Venda vendaEncontrada = this.listarPorId(id);
 
         vendaEncontrada.setCliente(venda.getCliente());
 

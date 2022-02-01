@@ -15,9 +15,9 @@ public class ItemVenda {
     private Integer quantidade;
     private Double preco;
 
-    @ManyToOne
+    /*@ManyToOne
     @JoinColumn(name = "venda_id")
-    private Venda venda;
+    private Venda venda;*/
 
     public ItemVenda() {
     }
@@ -65,11 +65,11 @@ public class ItemVenda {
         return this.preco * this.quantidade;
     }
 
-    public Venda getVenda() {
+    /*public Venda getVenda() {
         return venda;
     }
 
     public void setVenda(Venda venda) {
         this.venda = venda;
-    }
+    }*/
 }

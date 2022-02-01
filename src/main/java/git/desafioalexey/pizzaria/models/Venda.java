@@ -21,7 +21,7 @@ public class Venda {
     @ManyToOne
     private Cliente cliente;
 
-    @OneToMany(mappedBy = "venda", cascade = ALL)
+    @OneToMany(cascade = ALL)
     private List<ItemVenda> itens = new ArrayList<>();
 
     public Venda() {

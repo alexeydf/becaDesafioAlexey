@@ -31,18 +31,6 @@ public class ItemVendaService implements CrudInterface<ItemVenda> {
         item.setPizza(pizza);
         item.setPreco(pizza.getPreco());
 
-        Venda venda = vendaService.listarPorId(item.getVenda().getId());
-        item.setVenda(venda);
-
-
-
-        List<ItemVenda> itens = this.listarTodos();
-
-       venda.setItens(itens);
-       item.getVenda().getValorTotal();
-
-       vendaService.criar(venda);
-
         ItemVenda itemVendaCriado = itemVendaRepository.save(item);
 
         return itemVendaCriado;
