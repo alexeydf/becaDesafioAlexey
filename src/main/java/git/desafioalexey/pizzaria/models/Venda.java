@@ -1,28 +1,33 @@
 package git.desafioalexey.pizzaria.models;
 
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static javax.persistence.CascadeType.ALL;
+
+@Entity
 public class Venda {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private Double valorTotal;
-    private Date data;
+    private LocalDate data;
+
+    @ManyToOne
     private Cliente cliente;
-    private List<ItemVenda> itens;
 
-    public List<ItemVenda> getItens() {
-        return itens;
-    }
-
-    public void setItens(List<ItemVenda> itens) {
-        this.itens = itens;
-    }
+    @OneToMany(cascade = ALL)
+    private List<ItemVenda> itens = new ArrayList<>();
 
     public Venda() {
     }
 
-    public Venda(Long id, Date data, Cliente cliente) {
+    public Venda(Long id, LocalDate data, Cliente cliente) {
         this.id = id;
         this.valorTotal = valorTotal;
         this.data = data;
@@ -59,11 +64,11 @@ public class Venda {
         return this.valorTotal;
     }
 
-    public Date getData() {
+    public LocalDate getData() {
         return data;
     }
 
-    public void setData(Date data) {
+    public void setData(LocalDate data) {
         this.data = data;
     }
 
@@ -73,5 +78,13 @@ public class Venda {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public List<ItemVenda> getItens() {
+        return itens;
+    }
+
+    public void setItens(List<ItemVenda> itens) {
+        this.itens = itens;
     }
 }

@@ -1,9 +1,17 @@
 package git.desafioalexey.pizzaria.models;
 
+import javax.persistence.*;
+
+@Entity
 public class ItemVenda {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @OneToOne
     private Pizza pizza;
+
     private Integer quantidade;
     private Double preco;
 
@@ -14,7 +22,7 @@ public class ItemVenda {
         this.id = id;
         this.pizza = pizza;
         this.quantidade = quantidade;
-        this.preco = preco;
+        this.preco = pizza.getPreco();
     }
 
     public Long getId() {
@@ -42,7 +50,6 @@ public class ItemVenda {
     }
 
     public Double getPreco() {
-        this.preco = this.pizza.getPreco();
         return preco;
     }
 
@@ -53,4 +60,12 @@ public class ItemVenda {
     public Double getValorTotal() {
         return this.preco * this.quantidade;
     }
+
+    /*public Venda getVenda() {
+        return venda;
+    }
+
+    public void setVenda(Venda venda) {
+        this.venda = venda;
+    }*/
 }
