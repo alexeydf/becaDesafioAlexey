@@ -1,13 +1,11 @@
 package git.desafioalexey.pizzaria.services;
 
 import git.desafioalexey.pizzaria.models.Pizza;
-import git.desafioalexey.pizzaria.repositorys.PizzaRepository;
+import git.desafioalexey.pizzaria.repositories.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class PizzaService implements CrudInterface<Pizza> {
@@ -24,9 +22,7 @@ public class PizzaService implements CrudInterface<Pizza> {
             throw new RuntimeException("Preço informado não é válido!");
         }
 
-        Pizza pizzaCriada =  pizzaRepository.save(pizza);
-
-        return pizzaCriada;
+        return pizzaRepository.save(pizza);
     }
 
     public Pizza atualizar(Pizza pizza, Long id) {
@@ -42,9 +38,7 @@ public class PizzaService implements CrudInterface<Pizza> {
     }
 
     public Pizza listarPorId(Long id) {
-        Pizza pizzaLocalizada = pizzaRepository.findById(id).get();
-
-        return pizzaLocalizada;
+        return pizzaRepository.findById(id).get();
     }
 
     public Pizza listarPorSabor(String sabor) {
@@ -62,14 +56,10 @@ public class PizzaService implements CrudInterface<Pizza> {
     }
 
     public List<Pizza> listarTodos() {
-        List<Pizza> pizzas = pizzaRepository.findAll();
-
-        return pizzas;
+        return pizzaRepository.findAll();
     }
 
     public void excluir(Long id) {
-        Pizza pizzaLocalizada = pizzaRepository.findById(id).get();
-
-        pizzaRepository.delete(pizzaLocalizada);
+        pizzaRepository.deleteById(id);
     }
 }

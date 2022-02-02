@@ -1,4 +1,4 @@
-package git.desafioalexey.pizzaria.repositorys;
+package git.desafioalexey.pizzaria.repositories;
 
 import git.desafioalexey.pizzaria.models.ItemVenda;
 import org.springframework.data.jpa.repository.JpaRepository;

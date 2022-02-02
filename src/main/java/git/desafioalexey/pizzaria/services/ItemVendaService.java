@@ -1,16 +1,11 @@
 package git.desafioalexey.pizzaria.services;
 
 import git.desafioalexey.pizzaria.models.ItemVenda;
-import git.desafioalexey.pizzaria.models.Pizza;
-import git.desafioalexey.pizzaria.models.Venda;
-import git.desafioalexey.pizzaria.repositorys.ItemVendaRepository;
+import git.desafioalexey.pizzaria.repositories.ItemVendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class ItemVendaService implements CrudInterface<ItemVenda> {
@@ -43,22 +38,16 @@ public class ItemVendaService implements CrudInterface<ItemVenda> {
 
     @Override
     public List<ItemVenda> listarTodos() {
-        List<ItemVenda> itens = itemVendaRepository.findAll();
-
-        return itens;
+        return itemVendaRepository.findAll();
     }
 
     @Override
     public ItemVenda listarPorId(Long id) {
-        ItemVenda item = itemVendaRepository.findById(id).get();
-
-        return item;
+        return itemVendaRepository.findById(id).get();
     }
 
     @Override
     public void excluir(Long id) {
-        ItemVenda itemLocalizado = itemVendaRepository.findById(id).get();
-
-        itemVendaRepository.delete(itemLocalizado);
+        itemVendaRepository.deleteById(id);
     }
 }

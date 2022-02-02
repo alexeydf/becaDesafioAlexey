@@ -4,16 +4,12 @@ import git.desafioalexey.pizzaria.models.Cliente;
 import git.desafioalexey.pizzaria.models.ItemVenda;
 import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.models.Venda;
-import git.desafioalexey.pizzaria.repositorys.VendaRepository;
+import git.desafioalexey.pizzaria.repositories.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Service
 public class VendaService implements CrudInterface<Venda>{
@@ -43,9 +39,7 @@ public class VendaService implements CrudInterface<Venda>{
             item.setPreco(pizza.getPreco());
         }
 
-        Venda vendaCriada = vendaRepository.save(venda);
-
-        return vendaCriada;
+        return vendaRepository.save(venda);
     }
 
     @Override
@@ -61,16 +55,12 @@ public class VendaService implements CrudInterface<Venda>{
 
     @Override
     public List<Venda> listarTodos() {
-        List<Venda> vendas = vendaRepository.findAll();
-
-        return vendas;
+        return vendaRepository.findAll();
     }
 
     @Override
     public Venda listarPorId(Long id) {
-        Venda venda = vendaRepository.findById(id).get();
-
-        return venda;
+        return vendaRepository.findById(id).get();
     }
 
     @Override

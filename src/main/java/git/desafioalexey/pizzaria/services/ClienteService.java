@@ -1,15 +1,12 @@
 package git.desafioalexey.pizzaria.services;
 
 import git.desafioalexey.pizzaria.models.Cliente;
-import git.desafioalexey.pizzaria.repositorys.ClienteRepository;
+import git.desafioalexey.pizzaria.repositories.ClienteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
 public class ClienteService implements CrudInterface<Cliente> {
@@ -23,9 +20,7 @@ public class ClienteService implements CrudInterface<Cliente> {
             throw new RuntimeException("O nome deve conter 3 letras ou mais!");
         }
 
-        Cliente clienteCriado = clienteRepository.save(cliente);
-
-        return clienteCriado;
+        return clienteRepository.save(cliente);
     }
 
     @Override
@@ -44,35 +39,31 @@ public class ClienteService implements CrudInterface<Cliente> {
 
     @Override
     public List<Cliente> listarTodos() {
-        List<Cliente> clientes = clienteRepository.findAll();
-
-        return clientes;
+        return clienteRepository.findAll();
     }
 
     @Override
     public Cliente listarPorId(Long id) {
-        Cliente clienteListado = clienteRepository.findById(id).get();
-
-        return clienteListado;
+        return clienteRepository.findById(id).get();
     }
 
-    public Cliente listarPorNome(String nome) {
-        List<Cliente> clientes = clienteRepository.findAll();
+    public List<Cliente> listarPorNome(String nome) {
 
-        for (Cliente cliente: clientes) {
+
+        /*for (Cliente cliente: clientes) {
             if (cliente.getNome().equalsIgnoreCase(nome)) {
                 Cliente clientePesquisado = cliente;
                 return clientePesquisado;
             }
-        }
+        }*/
 
-        throw new RuntimeException("Cliente não encontrado!");
+        //throw new RuntimeException("Cliente não encontrado!");
+
+        return  clienteRepository.findByNomeContains(nome);
     }
 
     @Override
     public void excluir(Long id) {
-        Cliente clienteLocalizado = clienteRepository.findById(id).get();
-
-        clienteRepository.delete(clienteLocalizado);
+        clienteRepository.deleteById(id);
     }
 }
