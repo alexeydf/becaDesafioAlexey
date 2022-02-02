@@ -46,8 +46,8 @@ public class ClienteController {
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<List<Cliente>> listarPorNome(@PathVariable String nome) {
-        List<Cliente> clienteListadoPorNome = clienteService.listarPorNome(nome);
+    public ResponseEntity<List<GetClienteResponse>> listarPorNome(@PathVariable String nome) {
+        List<GetClienteResponse> clienteListadoPorNome = clienteService.listarPorNome(nome);
 
         return ResponseEntity.ok(clienteListadoPorNome);
     }

@@ -64,6 +64,10 @@ public class Venda {
         return this.valorTotal;
     }
 
+    public void setValorTotal(Double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
     public LocalDate getData() {
         return data;
     }

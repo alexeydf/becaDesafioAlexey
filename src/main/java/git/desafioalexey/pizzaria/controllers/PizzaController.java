@@ -42,8 +42,8 @@ public class PizzaController {
     }
 
     @GetMapping("/sabor/{sabor}")
-    public ResponseEntity<Pizza> listarRegistroPorSabor(@PathVariable String sabor) {
-        Pizza listadoPorSabor = pizzaService.listarPorSabor(sabor);
+    public ResponseEntity<List<GetPizzaResponse>> listarRegistroPorSabor(@PathVariable String sabor) {
+        List<GetPizzaResponse> listadoPorSabor = pizzaService.listarPorSabor(sabor);
 
         return ResponseEntity.ok(listadoPorSabor);
     }

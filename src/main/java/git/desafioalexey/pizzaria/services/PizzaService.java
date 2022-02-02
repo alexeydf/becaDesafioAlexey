@@ -5,6 +5,7 @@ import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PatchPizzaRespon
 import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PostPizzaResponse;
 import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PatchPizzaRequest;
 import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PostPizzaRequest;
+import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.GetVendaResponse;
 import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.repositories.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,31 +77,38 @@ public class PizzaService {
         return getPizzaResponse;
     }
 
-    public Pizza listarPorSabor(String sabor) {
+    public List<GetPizzaResponse> listarPorSabor(String sabor) {
+        List<Pizza> pizzas = pizzaRepository.findBySaborContaining(sabor);
 
-        List<Pizza> pizzas = pizzaRepository.findAll();
+        List<GetPizzaResponse> getPizzaResponses = new ArrayList<>();
 
         for (Pizza pizza: pizzas) {
-            if (pizza.getSabor().equalsIgnoreCase(sabor)) {
-                Pizza saborPesquisado = pizza;
-                return saborPesquisado;
-            }
+            GetPizzaResponse getPizzaResponse = new GetPizzaResponse();
+
+            getPizzaResponse.setCodigo(pizza.getId());
+            getPizzaResponse.setSabor(pizza.getSabor());
+            getPizzaResponse.setTipo(pizza.getTipo());
+            getPizzaResponse.setPreco(pizza.getPreco());
+
+            getPizzaResponses.add(getPizzaResponse);
         }
 
-        throw new RuntimeException("Sabor não encontrado. Tente novamente!");
+        return getPizzaResponses;
     }
 
     public List<GetPizzaResponse> listarTodos() {
         List<Pizza> pizzas = pizzaRepository.findAll();
 
-        GetPizzaResponse getPizzaResponse = new GetPizzaResponse();
         List<GetPizzaResponse> getPizzaResponses = new ArrayList<>();
 
         for (Pizza pizza: pizzas) {
+            GetPizzaResponse getPizzaResponse = new GetPizzaResponse();
+
             getPizzaResponse.setCodigo(pizza.getId());
             getPizzaResponse.setSabor(pizza.getSabor());
             getPizzaResponse.setTipo(pizza.getTipo());
             getPizzaResponse.setPreco(pizza.getPreco());
+
             getPizzaResponses.add(getPizzaResponse);
         }
 

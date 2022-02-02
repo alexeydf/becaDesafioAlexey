@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 @Service
@@ -107,19 +108,29 @@ public class ClienteService {
         return getClienteResponse;
     }
 
-    public List<Cliente> listarPorNome(String nome) {
+    public List<GetClienteResponse> listarPorNome(String nome) {
+
+        List<Cliente> clientes = clienteRepository.findByNomeIsContaining(nome);
+
+        List<GetClienteResponse> getClienteResponses = new ArrayList<>();
+
+        for (Cliente cliente: clientes) {
+            GetClienteResponse getClienteResponse = new GetClienteResponse();
+
+            getClienteResponse.setCodigo(cliente.getId());
+            getClienteResponse.setEmail(cliente.getEmail());
+            getClienteResponse.setEndereco(cliente.getEndereco());
+            getClienteResponse.setNome(cliente.getNome());
+            getClienteResponse.setTelefone(cliente.getTelefone());
+            getClienteResponse.setComprasRealizadas(cliente.getComprasRealizadas());
+            getClienteResponse.setTotalGasto(cliente.getTotalGasto());
+            getClienteResponse.setDataCadastro(cliente.getDataCadastro());
+
+            getClienteResponses.add(getClienteResponse);
+        }
 
 
-        /*for (Cliente cliente: clientes) {
-            if (cliente.getNome().equalsIgnoreCase(nome)) {
-                Cliente clientePesquisado = cliente;
-                return clientePesquisado;
-            }
-        }*/
-
-        //throw new RuntimeException("Cliente não encontrado!");
-
-        return  clienteRepository.findByNomeContains(nome);
+        return  getClienteResponses;
     }
 
     public void excluir(Long id) {

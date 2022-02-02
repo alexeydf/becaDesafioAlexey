@@ -7,6 +7,7 @@ import java.util.List;
 
 public class GetVendaResponse {
     private Double valorTotal;
+    private Integer quantidadeTotal;
     private String nomeCliente;
     private List<ItemVenda> itens = new ArrayList<>();
 
@@ -32,5 +33,13 @@ public class GetVendaResponse {
 
     public void setItens(List<ItemVenda> itens) {
         this.itens = itens;
+    }
+
+    public Integer getQuantidadeTotal() {
+        return quantidadeTotal;
+    }
+
+    public void setQuantidadeTotal(Integer quantidadeTotal) {
+        this.quantidadeTotal = quantidadeTotal;
     }
 }

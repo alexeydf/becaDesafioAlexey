@@ -40,6 +40,7 @@ public class VendaService {
         Venda venda = new Venda();
         venda.setCliente(cliente);
         venda.setItens(postVendaRequest.getItens());
+        venda.setValorTotal(postVendaRequest.getValorTotal());
 
         Venda vendaCriada = vendaRepository.save(venda);
 
@@ -72,6 +73,7 @@ public class VendaService {
             getVendaResponse.setItens(venda.getItens());
             getVendaResponse.setNomeCliente(venda.getCliente().getNome());
             getVendaResponse.setValorTotal(venda.getValorTotal());
+            getVendaResponse.setQuantidadeTotal(venda.getQuantidadeTotal());
 
             getVendaResponses.add(getVendaResponse);
         }
