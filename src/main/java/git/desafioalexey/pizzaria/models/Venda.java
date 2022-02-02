@@ -3,7 +3,6 @@ package git.desafioalexey.pizzaria.models;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static javax.persistence.CascadeType.ALL;
@@ -25,6 +24,7 @@ public class Venda {
     private List<ItemVenda> itens = new ArrayList<>();
 
     public Venda() {
+        this.data = LocalDate.now();
     }
 
     public Venda(Long id, LocalDate data, Cliente cliente) {

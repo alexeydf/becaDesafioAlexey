@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ItemVendaService implements CrudInterface<ItemVenda> {
+public class ItemVendaService {
 
     @Autowired
     private ItemVendaRepository itemVendaRepository;
@@ -19,12 +19,6 @@ public class ItemVendaService implements CrudInterface<ItemVenda> {
     @Autowired
     private VendaService vendaService;
 
-    @Override
-    public ItemVenda criar(ItemVenda item) {
-        return null;
-    }
-
-    @Override
     public ItemVenda atualizar(ItemVenda item, Long id) {
         ItemVenda itemLocalizado = itemVendaRepository.findById(id).get();
 
@@ -36,17 +30,14 @@ public class ItemVendaService implements CrudInterface<ItemVenda> {
         return itemLocalizado;
     }
 
-    @Override
     public List<ItemVenda> listarTodos() {
         return itemVendaRepository.findAll();
     }
 
-    @Override
     public ItemVenda listarPorId(Long id) {
         return itemVendaRepository.findById(id).get();
     }
 
-    @Override
     public void excluir(Long id) {
         itemVendaRepository.deleteById(id);
     }

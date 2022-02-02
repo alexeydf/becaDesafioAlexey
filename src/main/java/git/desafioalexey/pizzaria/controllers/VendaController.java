@@ -1,5 +1,8 @@
 package git.desafioalexey.pizzaria.controllers;
 
+import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.PostVendaRequest;
+import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.GetVendaResponse;
+import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.PostVendaResponse;
 import git.desafioalexey.pizzaria.models.Cliente;
 import git.desafioalexey.pizzaria.models.ItemVenda;
 import git.desafioalexey.pizzaria.models.Pizza;
@@ -21,8 +24,8 @@ public class VendaController {
     private VendaService vendaService;
 
     @PostMapping
-    public ResponseEntity<Venda> criar(@RequestBody Venda venda) {
-        Venda vendaCriada = vendaService.criar(venda);
+    public ResponseEntity<PostVendaResponse> criar(@RequestBody PostVendaRequest venda) {
+        PostVendaResponse vendaCriada = vendaService.criar(venda);
 
         return ResponseEntity.created(null).body(vendaCriada);
     }
@@ -35,15 +38,15 @@ public class VendaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Venda> listarPorId(@PathVariable Long id) {
-        Venda listadoPorId = vendaService.listarPorId(id);
+    public ResponseEntity<GetVendaResponse> listarPorId(@PathVariable Long id) {
+        GetVendaResponse listadoPorId = vendaService.listarPorId(id);
 
         return ResponseEntity.ok(listadoPorId);
     }
 
     @GetMapping
-    public ResponseEntity<List<Venda>> litar() {
-        List<Venda> listados = vendaService.listarTodos();
+    public ResponseEntity<List<GetVendaResponse>> litar() {
+        List<GetVendaResponse> listados = vendaService.listarTodos();
 
         return ResponseEntity.ok(listados);
     }

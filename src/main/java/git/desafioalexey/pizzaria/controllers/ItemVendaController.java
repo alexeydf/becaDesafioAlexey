@@ -17,13 +17,6 @@ public class ItemVendaController {
     @Autowired
     private ItemVendaService itemVendaService;
 
-    @PostMapping
-    public ResponseEntity<ItemVenda> registrar(@RequestBody ItemVenda item){
-        ItemVenda itemVendaRegistrado = itemVendaService.criar(item);
-
-        return ResponseEntity.created(null).body(itemVendaRegistrado);
-    }
-
     @PatchMapping("/{id}")
     public ResponseEntity<ItemVenda> atualizar(@RequestBody ItemVenda item, @PathVariable Long id) {
         ItemVenda itemVendaAtualizado = itemVendaService.atualizar(item, id);

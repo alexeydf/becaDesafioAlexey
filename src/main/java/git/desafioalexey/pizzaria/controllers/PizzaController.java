@@ -1,5 +1,10 @@
 package git.desafioalexey.pizzaria.controllers;
 
+import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.GetPizzaResponse;
+import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PatchPizzaResponse;
+import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PostPizzaResponse;
+import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PatchPizzaRequest;
+import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PostPizzaRequest;
 import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.services.PizzaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/pizza")
@@ -17,22 +21,22 @@ public class PizzaController {
     private PizzaService pizzaService;
 
     @PostMapping
-    public ResponseEntity<Pizza> criarNovo(@RequestBody Pizza pizza) {
-       Pizza pizzaCriada = pizzaService.criar(pizza);
+    public ResponseEntity<PostPizzaResponse> criarNovo(@RequestBody PostPizzaRequest postPizzaRequest) {
+       PostPizzaResponse pizzaCriada = pizzaService.criar(postPizzaRequest);
 
         return ResponseEntity.created(null).body(pizzaCriada);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Pizza> atualizarRegistro(@RequestBody Pizza pizza, @PathVariable Long id) {
-        Pizza pizzaAtualizada = pizzaService.atualizar(pizza,id);
+    public ResponseEntity<PatchPizzaResponse> atualizarRegistro(@RequestBody PatchPizzaRequest pizza, @PathVariable Long id) {
+        PatchPizzaResponse pizzaAtualizada = pizzaService.atualizar(pizza,id);
 
         return ResponseEntity.ok(pizzaAtualizada);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Pizza> listarRegistroPorId(@PathVariable Long id) {
-        Pizza listadoPorId = pizzaService.listarPorId(id);
+    public ResponseEntity<GetPizzaResponse> listarRegistroPorId(@PathVariable Long id) {
+        GetPizzaResponse listadoPorId = pizzaService.listarPorId(id);
 
         return ResponseEntity.ok(listadoPorId);
     }
@@ -45,8 +49,8 @@ public class PizzaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Pizza>> listarResgistros() {
-        List<Pizza> listados = pizzaService.listarTodos();
+    public ResponseEntity<List<GetPizzaResponse>> listarResgistros() {
+        List<GetPizzaResponse> listados = pizzaService.listarTodos();
 
         return ResponseEntity.ok(listados);
     }

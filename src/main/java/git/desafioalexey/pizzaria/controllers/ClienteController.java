@@ -1,5 +1,11 @@
 package git.desafioalexey.pizzaria.controllers;
 
+import git.desafioalexey.pizzaria.dtos.requests.clienteRequests.PachClienteRequest;
+import git.desafioalexey.pizzaria.dtos.requests.clienteRequests.PostClienteRequest;
+import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.GetClienteResponse;
+import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.PatchClienteResponse;
+import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.PostClienteResponse;
+import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PostPizzaResponse;
 import git.desafioalexey.pizzaria.models.Cliente;
 import git.desafioalexey.pizzaria.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,23 +24,23 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<Cliente> cadastrar(@RequestBody Cliente cliente) {
-       Cliente clienteCriado = clienteService.criar(cliente);
+    public ResponseEntity<PostClienteResponse> cadastrar(@RequestBody PostClienteRequest cliente) {
+       PostClienteResponse clienteCriado = clienteService.criar(cliente);
 
         return ResponseEntity.created(null).body(clienteCriado);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Cliente> atualizarCadastro(@RequestBody Cliente cliente, @PathVariable Long id) {
-        Cliente clienteAtualizado = clienteService.atualizar(cliente, id);
+    public ResponseEntity<PatchClienteResponse> atualizarCadastro(@RequestBody PachClienteRequest cliente, @PathVariable Long id) {
+        PatchClienteResponse clienteAtualizado = clienteService.atualizar(cliente, id);
 
         return ResponseEntity.ok(clienteAtualizado);
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> listarPorId(@PathVariable Long id) {
-        Cliente clienteListadoPorId = clienteService.listarPorId(id);
+    public ResponseEntity<GetClienteResponse> listarPorId(@PathVariable Long id) {
+        GetClienteResponse clienteListadoPorId = clienteService.listarPorId(id);
 
         return ResponseEntity.ok(clienteListadoPorId);
     }
@@ -47,8 +53,8 @@ public class ClienteController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listarTodos(){
-        List<Cliente> listados = clienteService.listarTodos();
+    public ResponseEntity<List<GetClienteResponse>> listarTodos(){
+        List<GetClienteResponse> listados = clienteService.listarTodos();
 
         return ResponseEntity.ok(listados);
     }
