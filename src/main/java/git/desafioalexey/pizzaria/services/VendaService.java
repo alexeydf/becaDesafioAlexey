@@ -9,6 +9,7 @@ import git.desafioalexey.pizzaria.models.ItemVenda;
 import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.models.Venda;
 import git.desafioalexey.pizzaria.repositories.ClienteRepository;
+import git.desafioalexey.pizzaria.repositories.PizzaRepository;
 import git.desafioalexey.pizzaria.repositories.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
