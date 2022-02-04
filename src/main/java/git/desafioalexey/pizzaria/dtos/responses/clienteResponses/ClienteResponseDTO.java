@@ -1,12 +1,26 @@
 package git.desafioalexey.pizzaria.dtos.responses.clienteResponses;
 
-public class PostClienteResponse {
+import git.desafioalexey.pizzaria.models.Cliente;
+
+public class ClienteResponseDTO {
     private Long codigo;
     private String nome;
     private String endereco;
     private String telefone;
     private String email;
     private String mensagem;
+
+    public ClienteResponseDTO convertToClienteDTO(Cliente cliente) {
+        ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO();
+        clienteResponseDTO.setCodigo(cliente.getId());
+        clienteResponseDTO.setNome(cliente.getNome());
+        clienteResponseDTO.setEndereco(cliente.getEndereco());
+        clienteResponseDTO.setEmail(cliente.getEmail());
+        clienteResponseDTO.setTelefone(cliente.getTelefone());
+        clienteResponseDTO.setMensagem("Cliente cadastrado com sucesso.");
+
+        return clienteResponseDTO;
+    }
 
     public Long getCodigo() {
         return codigo;

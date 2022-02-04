@@ -1,13 +1,25 @@
 package git.desafioalexey.pizzaria.dtos.requests.vendaRequests;
 
+import git.desafioalexey.pizzaria.models.Cliente;
 import git.desafioalexey.pizzaria.models.ItemVenda;
+import git.desafioalexey.pizzaria.models.Venda;
+
 import java.util.ArrayList;
 import java.util.List;
 
-public class PostVendaRequest {
+public class VendaRequestDTO {
     private Long clienteId;
     private List<ItemVenda> itens = new ArrayList<>();
     private Double valorTotal;
+
+    public Venda convertToVenda(Cliente cliente, VendaRequestDTO vendaRequestDTO) {
+        Venda venda = new Venda();
+        venda.setCliente(cliente);
+        venda.setItens(vendaRequestDTO.getItens());
+        venda.setValorTotal(vendaRequestDTO.getValorTotal());
+
+        return venda;
+    }
 
     public Long getClienteId() {
         return clienteId;

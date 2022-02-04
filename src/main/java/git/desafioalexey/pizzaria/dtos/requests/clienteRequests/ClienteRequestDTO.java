@@ -1,19 +1,22 @@
-package git.desafioalexey.pizzaria.dtos.responses.clienteResponses;
+package git.desafioalexey.pizzaria.dtos.requests.clienteRequests;
 
-public class PatchClienteResponse {
-    private Long codigo;
+import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.ClienteResponseDTO;
+import git.desafioalexey.pizzaria.models.Cliente;
+
+public class ClienteRequestDTO {
     private String nome;
     private String endereco;
     private String telefone;
     private String email;
-    private String mensagem;
 
-    public Long getCodigo() {
-        return codigo;
-    }
+    public Cliente convertToCliente(ClienteRequestDTO clienteRequestDTO, Cliente cliente) {
 
-    public void setCodigo(Long codigo) {
-        this.codigo = codigo;
+        cliente.setNome(clienteRequestDTO.getNome());
+        cliente.setEndereco(clienteRequestDTO.getEndereco());
+        cliente.setTelefone(clienteRequestDTO.getTelefone());
+        cliente.setEmail(clienteRequestDTO.getEmail());
+
+        return cliente;
     }
 
     public String getNome() {
@@ -46,13 +49,5 @@ public class PatchClienteResponse {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
     }
 }

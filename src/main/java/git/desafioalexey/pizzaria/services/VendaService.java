@@ -1,20 +1,14 @@
 package git.desafioalexey.pizzaria.services;
 
-import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.PostVendaRequest;
-import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.GetClienteResponse;
-import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.GetVendaResponse;
-import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.PostVendaResponse;
+import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaRequestDTO;
+import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.VendaResponseDTO;
 import git.desafioalexey.pizzaria.models.Cliente;
-import git.desafioalexey.pizzaria.models.ItemVenda;
-import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.models.Venda;
 import git.desafioalexey.pizzaria.repositories.ClienteRepository;
-import git.desafioalexey.pizzaria.repositories.PizzaRepository;
 import git.desafioalexey.pizzaria.repositories.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,24 +27,14 @@ public class VendaService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public PostVendaResponse criar(PostVendaRequest postVendaRequest) {
-        Cliente cliente = clienteRepository.findById(postVendaRequest.getClienteId()).get();
+    public VendaResponseDTO criar(VendaRequestDTO vendaRequestDTO) {
+        Cliente cliente = clienteRepository.findById(vendaRequestDTO.getClienteId()).get();
         cliente.setComprasRealizadas(cliente.getComprasRealizadas() + 1);
-        cliente.setTotalGasto(cliente.getTotalGasto() + postVendaRequest.getValorTotal());
+        cliente.setTotalGasto(cliente.getTotalGasto() + vendaRequestDTO.getValorTotal());
 
-        Venda venda = new Venda();
-        venda.setCliente(cliente);
-        venda.setItens(postVendaRequest.getItens());
-        venda.setValorTotal(postVendaRequest.getValorTotal());
+        Venda vendaCriada = vendaRepository.save(vendaRequestDTO.convertToVenda(cliente, vendaRequestDTO));
 
-        Venda vendaCriada = vendaRepository.save(venda);
-
-        PostVendaResponse postVendaResponse = new PostVendaResponse();
-        postVendaResponse.setItens(vendaCriada.getItens());
-        postVendaResponse.setNomeCliente(vendaCriada.getCliente().getNome());
-        postVendaResponse.setValorTotal(vendaCriada.getValorTotal());
-
-        return postVendaResponse;
+        return new VendaResponseDTO().convertToVendaDTO(vendaCriada);
     }
 
     public Venda atualizar(Venda venda, Long id) {
@@ -63,34 +47,22 @@ public class VendaService {
         return venda;
     }
 
-    public List<GetVendaResponse> listarTodos() {
+    public List<VendaResponseDTO> listarTodos() {
         List<Venda> vendas = vendaRepository.findAll();
 
-        List<GetVendaResponse> getVendaResponses = new ArrayList<>();
+        List<VendaResponseDTO> getVendaResponses = new ArrayList<>();
 
         for (Venda venda: vendas) {
-            GetVendaResponse getVendaResponse = new GetVendaResponse();
-
-            getVendaResponse.setItens(venda.getItens());
-            getVendaResponse.setNomeCliente(venda.getCliente().getNome());
-            getVendaResponse.setValorTotal(venda.getValorTotal());
-            getVendaResponse.setQuantidadeTotal(venda.getQuantidadeTotal());
-
-            getVendaResponses.add(getVendaResponse);
+            getVendaResponses.add(new VendaResponseDTO().convertToVendaDTO(venda));
         }
 
         return getVendaResponses;
     }
 
-    public GetVendaResponse listarPorId(Long id) {
+    public VendaResponseDTO listarPorId(Long id) {
         Venda vendaLocalizada = vendaRepository.findById(id).get();
 
-        GetVendaResponse getVendaResponse = new GetVendaResponse();
-        getVendaResponse.setItens(vendaLocalizada.getItens());
-        getVendaResponse.setNomeCliente(vendaLocalizada.getCliente().getNome());
-        getVendaResponse.setValorTotal(vendaLocalizada.getValorTotal());
-
-        return getVendaResponse;
+        return new VendaResponseDTO().convertToVendaDTO(vendaLocalizada);
     }
 
     public void excluir(Long id) {

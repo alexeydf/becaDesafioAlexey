@@ -1,11 +1,7 @@
 package git.desafioalexey.pizzaria.services;
 
-import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.GetPizzaResponse;
-import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PatchPizzaResponse;
-import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PostPizzaResponse;
-import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PatchPizzaRequest;
-import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PostPizzaRequest;
-import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.GetVendaResponse;
+import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PizzaResponseDTO;
+import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PizzaRequestDTO;
 import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.repositories.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,99 +16,61 @@ public class PizzaService {
     @Autowired
     private PizzaRepository pizzaRepository;
 
-    public PostPizzaResponse criar(PostPizzaRequest postPizzaRequest) {
-        if(postPizzaRequest.getSabor().length() < 3 || postPizzaRequest.getTipo().length() < 3) {
+    public PizzaResponseDTO criar(PizzaRequestDTO pizzaRequestDTO) {
+        if(pizzaRequestDTO.getSabor().length() < 3 || pizzaRequestDTO.getTipo().length() < 3) {
             throw new RuntimeException("Caracteres insuficientes. Informe 3 caracteres ou mais!");
         }
 
-        if(postPizzaRequest.getPreco() < 0) {
+        if(pizzaRequestDTO.getPreco() < 0) {
             throw new RuntimeException("Preço informado não é válido!");
         }
 
         Pizza pizza = new Pizza();
-        pizza.setSabor(postPizzaRequest.getSabor());
-        pizza.setTipo(postPizzaRequest.getTipo());
-        pizza.setPreco(postPizzaRequest.getPreco());
+        pizzaRequestDTO.convertToPizza(pizzaRequestDTO,pizza);
 
-        Pizza pizzaCriada = pizzaRepository.save(pizza);
+        pizzaRepository.save(pizza);
 
-        PostPizzaResponse postPizzaResponse = new PostPizzaResponse();
-        postPizzaResponse.setCodigo(pizzaCriada.getId());
-        postPizzaResponse.setSabor(pizzaCriada.getSabor());
-        postPizzaResponse.setTipo(pizzaCriada.getTipo());
-        postPizzaResponse.setPreco(pizzaCriada.getPreco());
-        postPizzaResponse.setMensagem("Pizza criada com sucesso.");
-
-        return postPizzaResponse;
+        return new PizzaResponseDTO().covertToPizzaDTO(pizza);
     }
 
-    public PatchPizzaResponse atualizar(PatchPizzaRequest pizzaRequest, Long id) {
+    public PizzaResponseDTO atualizar(PizzaRequestDTO pizzaRequestDTO, Long id) {
         Pizza pizzaEncontrada = pizzaRepository.findById(id).get();
 
-        pizzaEncontrada.setSabor(pizzaRequest.getSabor());
-        pizzaEncontrada.setTipo(pizzaRequest.getTipo());
-        pizzaEncontrada.setPreco(pizzaRequest.getPreco());
+        pizzaRequestDTO.convertToPizza(pizzaRequestDTO,pizzaEncontrada);
 
         pizzaRepository.save(pizzaEncontrada);
 
-        PatchPizzaResponse pizzaResponse = new PatchPizzaResponse();
-        pizzaResponse.setCodigo(pizzaEncontrada.getId());
-        pizzaResponse.setSabor(pizzaEncontrada.getSabor());
-        pizzaResponse.setTipo(pizzaEncontrada.getTipo());
-        pizzaResponse.setPreco(pizzaEncontrada.getPreco());
-        pizzaResponse.setMensagem("Registro atualizado com sucesso.");
-
-        return pizzaResponse;
+        return new PizzaResponseDTO().covertToPizzaDTO(pizzaEncontrada);
     }
 
-    public GetPizzaResponse listarPorId(Long id) {
+    public PizzaResponseDTO listarPorId(Long id) {
         Pizza pizza = pizzaRepository.findById(id).get();
 
-        GetPizzaResponse getPizzaResponse = new GetPizzaResponse();
-        getPizzaResponse.setCodigo(pizza.getId());
-        getPizzaResponse.setTipo(pizza.getTipo());
-        getPizzaResponse.setSabor(pizza.getSabor());
-        getPizzaResponse.setPreco(pizza.getPreco());
-
-        return getPizzaResponse;
+        return new PizzaResponseDTO().covertToPizzaDTO(pizza);
     }
 
-    public List<GetPizzaResponse> listarPorSabor(String sabor) {
+    public List<PizzaResponseDTO> listarPorSabor(String sabor) {
         List<Pizza> pizzas = pizzaRepository.findBySaborContaining(sabor);
 
-        List<GetPizzaResponse> getPizzaResponses = new ArrayList<>();
+        List<PizzaResponseDTO> pizzaResponseDTOs = new ArrayList<>();
 
         for (Pizza pizza: pizzas) {
-            GetPizzaResponse getPizzaResponse = new GetPizzaResponse();
-
-            getPizzaResponse.setCodigo(pizza.getId());
-            getPizzaResponse.setSabor(pizza.getSabor());
-            getPizzaResponse.setTipo(pizza.getTipo());
-            getPizzaResponse.setPreco(pizza.getPreco());
-
-            getPizzaResponses.add(getPizzaResponse);
+            pizzaResponseDTOs.add(new PizzaResponseDTO().covertToPizzaDTO(pizza));
         }
 
-        return getPizzaResponses;
+        return pizzaResponseDTOs;
     }
 
-    public List<GetPizzaResponse> listarTodos() {
+    public List<PizzaResponseDTO> listarTodos() {
         List<Pizza> pizzas = pizzaRepository.findAll();
 
-        List<GetPizzaResponse> getPizzaResponses = new ArrayList<>();
+        List<PizzaResponseDTO> pizzaResponseDTOs = new ArrayList<>();
 
         for (Pizza pizza: pizzas) {
-            GetPizzaResponse getPizzaResponse = new GetPizzaResponse();
-
-            getPizzaResponse.setCodigo(pizza.getId());
-            getPizzaResponse.setSabor(pizza.getSabor());
-            getPizzaResponse.setTipo(pizza.getTipo());
-            getPizzaResponse.setPreco(pizza.getPreco());
-
-            getPizzaResponses.add(getPizzaResponse);
+            pizzaResponseDTOs.add(new PizzaResponseDTO().covertToPizzaDTO(pizza));
         }
 
-        return getPizzaResponses;
+        return pizzaResponseDTOs;
     }
 
     public void excluir(Long id) {

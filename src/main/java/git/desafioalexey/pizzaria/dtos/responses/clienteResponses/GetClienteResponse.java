@@ -1,5 +1,7 @@
 package git.desafioalexey.pizzaria.dtos.responses.clienteResponses;
 
+import git.desafioalexey.pizzaria.models.Cliente;
+
 import java.time.LocalDate;
 
 public class GetClienteResponse {
@@ -11,6 +13,20 @@ public class GetClienteResponse {
     private Integer comprasRealizadas;
     private Double totalGasto;
     private LocalDate dataCadastro;
+
+    public GetClienteResponse toClienteResponse(Cliente cliente) {
+        GetClienteResponse getClienteResponse = new GetClienteResponse();
+        getClienteResponse.setCodigo(cliente.getId());
+        getClienteResponse.setEmail(cliente.getEmail());
+        getClienteResponse.setEndereco(cliente.getEndereco());
+        getClienteResponse.setNome(cliente.getNome());
+        getClienteResponse.setTelefone(cliente.getTelefone());
+        getClienteResponse.setComprasRealizadas(cliente.getComprasRealizadas());
+        getClienteResponse.setTotalGasto(cliente.getTotalGasto());
+        getClienteResponse.setDataCadastro(cliente.getDataCadastro());
+
+        return getClienteResponse;
+    }
 
     public Long getCodigo() {
         return codigo;

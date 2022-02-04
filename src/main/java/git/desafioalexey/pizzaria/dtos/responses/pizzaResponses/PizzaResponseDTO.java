@@ -1,11 +1,22 @@
 package git.desafioalexey.pizzaria.dtos.responses.pizzaResponses;
 
-public class PatchPizzaResponse {
+import git.desafioalexey.pizzaria.models.Pizza;
+
+public class PizzaResponseDTO {
     private Long codigo;
     private String sabor;
     private String tipo;
     private Double preco;
-    private String mensagem;
+
+    public PizzaResponseDTO covertToPizzaDTO(Pizza pizzaCriada) {
+        PizzaResponseDTO pizzaResponsDTO = new PizzaResponseDTO();
+        pizzaResponsDTO.setCodigo(pizzaCriada.getId());
+        pizzaResponsDTO.setSabor(pizzaCriada.getSabor());
+        pizzaResponsDTO.setTipo(pizzaCriada.getTipo());
+        pizzaResponsDTO.setPreco(pizzaCriada.getPreco());
+
+        return pizzaResponsDTO;
+    }
 
     public Long getCodigo() {
         return codigo;
@@ -37,13 +48,5 @@ public class PatchPizzaResponse {
 
     public void setPreco(Double preco) {
         this.preco = preco;
-    }
-
-    public String getMensagem() {
-        return mensagem;
-    }
-
-    public void setMensagem(String mensagem) {
-        this.mensagem = mensagem;
     }
 }
