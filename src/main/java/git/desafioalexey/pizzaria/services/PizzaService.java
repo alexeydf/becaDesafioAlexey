@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PizzaService {
+public class  PizzaService {
 
     @Autowired
     private PizzaRepository pizzaRepository;
