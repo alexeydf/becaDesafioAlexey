@@ -1,5 +1,6 @@
 package git.desafioalexey.pizzaria.services;
 
+import git.desafioalexey.pizzaria.dtos.mapper.PizzaMapper;
 import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PizzaResponseDTO;
 import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PizzaRequestDTO;
 import git.desafioalexey.pizzaria.models.Pizza;
@@ -16,21 +17,18 @@ public class  PizzaService {
     @Autowired
     private PizzaRepository pizzaRepository;
 
+    @Autowired
+    private PizzaMapper pizzaMapper;
+
     public PizzaResponseDTO criar(PizzaRequestDTO pizzaRequestDTO) {
-        if(pizzaRequestDTO.getSabor().length() < 3 || pizzaRequestDTO.getTipo().length() < 3) {
-            throw new RuntimeException("Caracteres insuficientes. Informe 3 caracteres ou mais!");
-        }
 
-        if(pizzaRequestDTO.getPreco() < 0) {
-            throw new RuntimeException("Preço informado não é válido!");
-        }
-
-        Pizza pizza = new Pizza();
-        pizzaRequestDTO.convertToPizza(pizzaRequestDTO,pizza);
+        Pizza pizza = pizzaMapper.convertToPizza(pizzaRequestDTO);
 
         pizzaRepository.save(pizza);
 
-        return new PizzaResponseDTO().covertToPizzaDTO(pizza);
+        PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizza);
+
+        return pizzaResponseDTO;
     }
 
     public PizzaResponseDTO atualizar(PizzaRequestDTO pizzaRequestDTO, Long id) {
@@ -40,13 +38,17 @@ public class  PizzaService {
 
         pizzaRepository.save(pizzaEncontrada);
 
-        return new PizzaResponseDTO().covertToPizzaDTO(pizzaEncontrada);
+        PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizzaEncontrada);
+
+        return pizzaResponseDTO;
     }
 
     public PizzaResponseDTO listarPorId(Long id) {
         Pizza pizza = pizzaRepository.findById(id).get();
 
-        return new PizzaResponseDTO().covertToPizzaDTO(pizza);
+        PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizza);
+
+        return pizzaResponseDTO;
     }
 
     public List<PizzaResponseDTO> listarPorSabor(String sabor) {
@@ -55,7 +57,9 @@ public class  PizzaService {
         List<PizzaResponseDTO> pizzaResponseDTOs = new ArrayList<>();
 
         for (Pizza pizza: pizzas) {
-            pizzaResponseDTOs.add(new PizzaResponseDTO().covertToPizzaDTO(pizza));
+            PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizza);
+
+            pizzaResponseDTOs.add(pizzaResponseDTO);
         }
 
         return pizzaResponseDTOs;
@@ -67,7 +71,9 @@ public class  PizzaService {
         List<PizzaResponseDTO> pizzaResponseDTOs = new ArrayList<>();
 
         for (Pizza pizza: pizzas) {
-            pizzaResponseDTOs.add(new PizzaResponseDTO().covertToPizzaDTO(pizza));
+            PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizza);
+
+            pizzaResponseDTOs.add(pizzaResponseDTO);
         }
 
         return pizzaResponseDTOs;

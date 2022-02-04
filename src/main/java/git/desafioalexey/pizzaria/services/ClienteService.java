@@ -1,5 +1,6 @@
 package git.desafioalexey.pizzaria.services;
 
+import git.desafioalexey.pizzaria.dtos.mapper.ClienteMapper;
 import git.desafioalexey.pizzaria.dtos.requests.clienteRequests.ClienteRequestDTO;
 import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.GetClienteResponse;
 import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.ClienteResponseDTO;
@@ -17,16 +18,16 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
 
-    public ClienteResponseDTO criar(ClienteRequestDTO clienteRequestDTO) {
-        if(clienteRequestDTO.getNome().length() < 3) {
-            throw new RuntimeException("O nome deve conter 3 letras ou mais!");
-        }
+    @Autowired
+    private ClienteMapper clienteMapper;
 
-        Cliente clienteCriado = new Cliente();
-        clienteRequestDTO.convertToCliente(clienteRequestDTO, clienteCriado);
+    public ClienteResponseDTO criar(ClienteRequestDTO clienteRequestDTO) {
+        Cliente clienteCriado = clienteMapper.convertToCliente(clienteRequestDTO);
         clienteRepository.save(clienteCriado);
 
-        return new ClienteResponseDTO().convertToClienteDTO(clienteCriado);
+        ClienteResponseDTO clienteResponseDTO = clienteMapper.convertToClienteDTO(clienteCriado);
+
+        return clienteResponseDTO;
     }
 
     public ClienteResponseDTO atualizar(ClienteRequestDTO clienteRequestDTO, Long id) {
@@ -36,9 +37,7 @@ public class ClienteService {
 
         clienteRepository.save(clienteEncotrado);
 
-        ClienteResponseDTO clienteResponseDTO = new ClienteResponseDTO();
-        clienteResponseDTO = clienteResponseDTO.convertToClienteDTO(clienteEncotrado);
-        clienteResponseDTO.setMensagem("O registro " + clienteResponseDTO.getCodigo() + " foi atualizado com sucesso.");
+        ClienteResponseDTO clienteResponseDTO = clienteMapper.convertToClienteDTO(clienteEncotrado);
 
         return clienteResponseDTO;
     }
@@ -49,7 +48,7 @@ public class ClienteService {
         List<GetClienteResponse> getClienteResponses = new ArrayList<>();
 
         for (Cliente cliente: clientes) {
-            GetClienteResponse getClienteResponse = new GetClienteResponse().toClienteResponse(cliente);
+            GetClienteResponse getClienteResponse = clienteMapper.corvertToGetDTO(cliente);
 
             getClienteResponses.add(getClienteResponse);
         }
@@ -60,17 +59,18 @@ public class ClienteService {
     public GetClienteResponse listarPorId(Long id) {
         Cliente clienteEncontrado = clienteRepository.findById(id).get();
 
-        return new GetClienteResponse().toClienteResponse(clienteEncontrado);
+        GetClienteResponse getClienteResponse = clienteMapper.corvertToGetDTO(clienteEncontrado);
+
+        return getClienteResponse;
     }
 
     public List<GetClienteResponse> listarPorNome(String nome) {
-
         List<Cliente> clientes = clienteRepository.findByNomeIsContaining(nome);
 
         List<GetClienteResponse> getClienteResponses = new ArrayList<>();
 
         for (Cliente cliente: clientes) {
-            GetClienteResponse getClienteResponse = new GetClienteResponse().toClienteResponse(cliente);
+            GetClienteResponse getClienteResponse = clienteMapper.corvertToGetDTO(cliente);
 
             getClienteResponses.add(getClienteResponse);
         }

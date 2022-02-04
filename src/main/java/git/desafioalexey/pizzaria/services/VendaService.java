@@ -1,5 +1,7 @@
 package git.desafioalexey.pizzaria.services;
 
+import git.desafioalexey.pizzaria.dtos.mapper.ClienteMapper;
+import git.desafioalexey.pizzaria.dtos.mapper.VendaMapper;
 import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaRequestDTO;
 import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.VendaResponseDTO;
 import git.desafioalexey.pizzaria.models.Cliente;
@@ -27,14 +29,23 @@ public class VendaService {
     @Autowired
     private ClienteRepository clienteRepository;
 
+    @Autowired
+    private VendaMapper vendaMapper;
+
     public VendaResponseDTO criar(VendaRequestDTO vendaRequestDTO) {
         Cliente cliente = clienteRepository.findById(vendaRequestDTO.getClienteId()).get();
         cliente.setComprasRealizadas(cliente.getComprasRealizadas() + 1);
         cliente.setTotalGasto(cliente.getTotalGasto() + vendaRequestDTO.getValorTotal());
 
-        Venda vendaCriada = vendaRepository.save(vendaRequestDTO.convertToVenda(cliente, vendaRequestDTO));
+        Venda vendaCriada = vendaMapper.convertToVenda(vendaRequestDTO);
+        vendaCriada.setCliente(cliente);
 
-        return new VendaResponseDTO().convertToVendaDTO(vendaCriada);
+        vendaRepository.save(vendaCriada);
+
+        VendaResponseDTO vendaResponseDTO = vendaMapper.covertToVendaDTO(vendaCriada);
+        vendaResponseDTO.setNomeCliente(cliente.getNome());
+
+        return vendaResponseDTO;
     }
 
     public Venda atualizar(Venda venda, Long id) {
@@ -53,7 +64,10 @@ public class VendaService {
         List<VendaResponseDTO> getVendaResponses = new ArrayList<>();
 
         for (Venda venda: vendas) {
-            getVendaResponses.add(new VendaResponseDTO().convertToVendaDTO(venda));
+            VendaResponseDTO vendaResponseDTO = vendaMapper.covertToVendaDTO(venda);
+            vendaResponseDTO.setNomeCliente(venda.getCliente().getNome());
+
+            getVendaResponses.add(vendaResponseDTO);
         }
 
         return getVendaResponses;
@@ -62,7 +76,10 @@ public class VendaService {
     public VendaResponseDTO listarPorId(Long id) {
         Venda vendaLocalizada = vendaRepository.findById(id).get();
 
-        return new VendaResponseDTO().convertToVendaDTO(vendaLocalizada);
+        VendaResponseDTO vendaResponseDTO = vendaMapper.covertToVendaDTO(vendaLocalizada);
+        vendaResponseDTO.setNomeCliente(vendaLocalizada.getCliente().getNome());
+
+        return vendaResponseDTO;
     }
 
     public void excluir(Long id) {

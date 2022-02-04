@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,14 +19,14 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<ClienteResponseDTO> cadastrar(@RequestBody ClienteRequestDTO cliente) {
+    public ResponseEntity<ClienteResponseDTO> cadastrar(@RequestBody @Valid ClienteRequestDTO cliente) {
        ClienteResponseDTO clienteCriado = clienteService.criar(cliente);
 
         return ResponseEntity.created(null).body(clienteCriado);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClienteResponseDTO> atualizarCadastro(@RequestBody ClienteRequestDTO cliente, @PathVariable Long id) {
+    public ResponseEntity<ClienteResponseDTO> atualizarCadastro(@RequestBody @Valid ClienteRequestDTO cliente, @PathVariable Long id) {
         ClienteResponseDTO clienteAtualizado = clienteService.atualizar(cliente, id);
 
         return ResponseEntity.ok(clienteAtualizado);
