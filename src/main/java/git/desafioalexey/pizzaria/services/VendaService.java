@@ -8,6 +8,7 @@ import git.desafioalexey.pizzaria.models.Cliente;
 import git.desafioalexey.pizzaria.models.Venda;
 import git.desafioalexey.pizzaria.repositories.ClienteRepository;
 import git.desafioalexey.pizzaria.repositories.VendaRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,22 +16,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VendaService {
-
-    @Autowired
-    private VendaRepository vendaRepository;
-
-    @Autowired
-    private ClienteService clienteService;
-
-    @Autowired
-    private PizzaService pizzaService;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
-
-    @Autowired
-    private VendaMapper vendaMapper;
+    private final VendaRepository vendaRepository;
+    private final ClienteService clienteService;
+    private final PizzaService pizzaService;
+    private final ClienteRepository clienteRepository;
+    private final VendaMapper vendaMapper;
 
     public VendaResponseDTO criar(VendaRequestDTO vendaRequestDTO) {
         Cliente cliente = clienteRepository.findById(vendaRequestDTO.getClienteId()).get();
@@ -43,7 +35,7 @@ public class VendaService {
         vendaRepository.save(vendaCriada);
 
         VendaResponseDTO vendaResponseDTO = vendaMapper.covertToVendaDTO(vendaCriada);
-        vendaResponseDTO.setNomeCliente(cliente.getNome());
+        vendaResponseDTO.setClienteNome(cliente.getNome());
 
         return vendaResponseDTO;
     }
@@ -65,7 +57,7 @@ public class VendaService {
 
         for (Venda venda: vendas) {
             VendaResponseDTO vendaResponseDTO = vendaMapper.covertToVendaDTO(venda);
-            vendaResponseDTO.setNomeCliente(venda.getCliente().getNome());
+            vendaResponseDTO.setClienteNome(venda.getCliente().getNome());
 
             getVendaResponses.add(vendaResponseDTO);
         }
@@ -77,7 +69,7 @@ public class VendaService {
         Venda vendaLocalizada = vendaRepository.findById(id).get();
 
         VendaResponseDTO vendaResponseDTO = vendaMapper.covertToVendaDTO(vendaLocalizada);
-        vendaResponseDTO.setNomeCliente(vendaLocalizada.getCliente().getNome());
+        vendaResponseDTO.setClienteNome(vendaLocalizada.getCliente().getNome());
 
         return vendaResponseDTO;
     }

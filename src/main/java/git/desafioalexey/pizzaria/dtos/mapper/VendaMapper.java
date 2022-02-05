@@ -10,6 +10,5 @@ import org.mapstruct.Mapper;
 public interface VendaMapper {
     Venda convertToVenda(VendaRequestDTO vendaRequestDTO);
 
-    @InheritInverseConfiguration
     VendaResponseDTO covertToVendaDTO(Venda venda);
 }

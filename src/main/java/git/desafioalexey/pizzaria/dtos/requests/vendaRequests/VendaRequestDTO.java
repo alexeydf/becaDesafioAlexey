@@ -21,16 +21,6 @@ public class VendaRequestDTO {
 
     private Double valorTotal;
 
-    public Integer getQuantidadeTotal() {
-        Integer quantidadeTotal = 0;
-
-        for (ItemVenda item: this.itens) {
-            quantidadeTotal += item.getQuantidade();
-        }
-
-        return quantidadeTotal;
-    }
-
     public Double getValorTotal() {
         Double valorTotalCalculado = 0.0;
 

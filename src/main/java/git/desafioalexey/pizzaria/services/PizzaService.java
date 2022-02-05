@@ -5,6 +5,7 @@ import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PizzaResponseDTO
 import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PizzaRequestDTO;
 import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.repositories.PizzaRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,43 +13,34 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class  PizzaService {
 
-    @Autowired
-    private PizzaRepository pizzaRepository;
-
-    @Autowired
-    private PizzaMapper pizzaMapper;
+    private final PizzaRepository pizzaRepository;
+    private final PizzaMapper pizzaMapper;
 
     public PizzaResponseDTO criar(PizzaRequestDTO pizzaRequestDTO) {
-
-        Pizza pizza = pizzaMapper.convertToPizza(pizzaRequestDTO);
+        Pizza pizza = pizzaMapper.toPizza(pizzaRequestDTO);
 
         pizzaRepository.save(pizza);
 
-        PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizza);
-
-        return pizzaResponseDTO;
+        return pizzaMapper.toPizzaDTO(pizza);
     }
 
     public PizzaResponseDTO atualizar(PizzaRequestDTO pizzaRequestDTO, Long id) {
         Pizza pizzaEncontrada = pizzaRepository.findById(id).get();
 
-        pizzaRequestDTO.convertToPizza(pizzaRequestDTO,pizzaEncontrada);
+        pizzaMapper.atualizar(pizzaRequestDTO, pizzaEncontrada);
 
         pizzaRepository.save(pizzaEncontrada);
 
-        PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizzaEncontrada);
-
-        return pizzaResponseDTO;
+        return pizzaMapper.toPizzaDTO(pizzaEncontrada);
     }
 
     public PizzaResponseDTO listarPorId(Long id) {
         Pizza pizza = pizzaRepository.findById(id).get();
 
-        PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizza);
-
-        return pizzaResponseDTO;
+        return pizzaMapper.toPizzaDTO(pizza);
     }
 
     public List<PizzaResponseDTO> listarPorSabor(String sabor) {
@@ -57,9 +49,7 @@ public class  PizzaService {
         List<PizzaResponseDTO> pizzaResponseDTOs = new ArrayList<>();
 
         for (Pizza pizza: pizzas) {
-            PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizza);
-
-            pizzaResponseDTOs.add(pizzaResponseDTO);
+            pizzaResponseDTOs.add(pizzaMapper.toPizzaDTO(pizza));
         }
 
         return pizzaResponseDTOs;
@@ -71,9 +61,7 @@ public class  PizzaService {
         List<PizzaResponseDTO> pizzaResponseDTOs = new ArrayList<>();
 
         for (Pizza pizza: pizzas) {
-            PizzaResponseDTO pizzaResponseDTO = pizzaMapper.convertToPizzaDTO(pizza);
-
-            pizzaResponseDTOs.add(pizzaResponseDTO);
+            pizzaResponseDTOs.add(pizzaMapper.toPizzaDTO(pizza));
         }
 
         return pizzaResponseDTOs;

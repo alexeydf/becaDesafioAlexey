@@ -6,6 +6,7 @@ import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.GetClienteResp
 import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.ClienteResponseDTO;
 import git.desafioalexey.pizzaria.models.Cliente;
 import git.desafioalexey.pizzaria.repositories.ClienteRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,33 +14,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class ClienteService {
-
-    @Autowired
-    private ClienteRepository clienteRepository;
-
-    @Autowired
-    private ClienteMapper clienteMapper;
+    private final ClienteRepository clienteRepository;
+    private final ClienteMapper clienteMapper;
 
     public ClienteResponseDTO criar(ClienteRequestDTO clienteRequestDTO) {
-        Cliente clienteCriado = clienteMapper.convertToCliente(clienteRequestDTO);
+        Cliente clienteCriado = clienteMapper.toCliente(clienteRequestDTO);
+
         clienteRepository.save(clienteCriado);
 
-        ClienteResponseDTO clienteResponseDTO = clienteMapper.convertToClienteDTO(clienteCriado);
-
-        return clienteResponseDTO;
+        return clienteMapper.toClienteDTO(clienteCriado);
     }
 
     public ClienteResponseDTO atualizar(ClienteRequestDTO clienteRequestDTO, Long id) {
         Cliente clienteEncotrado = clienteRepository.findById(id).get();
 
-        clienteRequestDTO.convertToCliente(clienteRequestDTO, clienteEncotrado);
+        clienteMapper.atualizar(clienteRequestDTO, clienteEncotrado);
 
         clienteRepository.save(clienteEncotrado);
 
-        ClienteResponseDTO clienteResponseDTO = clienteMapper.convertToClienteDTO(clienteEncotrado);
-
-        return clienteResponseDTO;
+        return clienteMapper.toClienteDTO(clienteEncotrado);
     }
 
     public List<GetClienteResponse> listarTodos() {
@@ -48,9 +43,7 @@ public class ClienteService {
         List<GetClienteResponse> getClienteResponses = new ArrayList<>();
 
         for (Cliente cliente: clientes) {
-            GetClienteResponse getClienteResponse = clienteMapper.corvertToGetDTO(cliente);
-
-            getClienteResponses.add(getClienteResponse);
+            getClienteResponses.add(clienteMapper.toClienteGetDTO(cliente));
         }
 
         return getClienteResponses;
@@ -59,9 +52,7 @@ public class ClienteService {
     public GetClienteResponse listarPorId(Long id) {
         Cliente clienteEncontrado = clienteRepository.findById(id).get();
 
-        GetClienteResponse getClienteResponse = clienteMapper.corvertToGetDTO(clienteEncontrado);
-
-        return getClienteResponse;
+        return clienteMapper.toClienteGetDTO(clienteEncontrado);
     }
 
     public List<GetClienteResponse> listarPorNome(String nome) {
@@ -70,9 +61,7 @@ public class ClienteService {
         List<GetClienteResponse> getClienteResponses = new ArrayList<>();
 
         for (Cliente cliente: clientes) {
-            GetClienteResponse getClienteResponse = clienteMapper.corvertToGetDTO(cliente);
-
-            getClienteResponses.add(getClienteResponse);
+            getClienteResponses.add(clienteMapper.toClienteGetDTO(cliente));
         }
 
         return  getClienteResponses;
