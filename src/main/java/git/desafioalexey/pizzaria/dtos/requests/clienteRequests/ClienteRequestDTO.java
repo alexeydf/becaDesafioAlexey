@@ -24,15 +24,4 @@ public class ClienteRequestDTO {
     @NotBlank(message = "{campo.not.blank}")
     @Email(message = "{email.not.valid}")
     private String email;
-
-    public Cliente convertToCliente(ClienteRequestDTO clienteRequestDTO, Cliente cliente) {
-
-        cliente.setNome(clienteRequestDTO.getNome());
-        cliente.setEndereco(clienteRequestDTO.getEndereco());
-        cliente.setTelefone(clienteRequestDTO.getTelefone());
-        cliente.setEmail(clienteRequestDTO.getEmail());
-
-        return cliente;
-    }
-
 }

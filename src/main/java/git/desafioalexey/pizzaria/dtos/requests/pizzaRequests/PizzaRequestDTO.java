@@ -21,13 +21,4 @@ public class PizzaRequestDTO {
     @NotNull(message = "{campo.not.blank}")
     @Min(value = 0, message = "{preco.min.valor}")
     private Double preco;
-
-    public Pizza convertToPizza(PizzaRequestDTO pizzaRequestDTO, Pizza pizza) {
-        pizza.setSabor(pizzaRequestDTO.getSabor());
-        pizza.setTipo(pizzaRequestDTO.getTipo());
-        pizza.setPreco(pizzaRequestDTO.getPreco());
-
-        return pizza;
-    }
-
 }
