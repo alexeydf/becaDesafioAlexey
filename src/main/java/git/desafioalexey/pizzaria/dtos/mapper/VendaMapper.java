@@ -1,14 +1,17 @@
 package git.desafioalexey.pizzaria.dtos.mapper;
 
+import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaAtualizarDTO;
 import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaRequestDTO;
 import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.VendaResponseDTO;
 import git.desafioalexey.pizzaria.models.Venda;
-import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
+import org.mapstruct.MappingTarget;
 
 @Mapper(componentModel = "spring")
 public interface VendaMapper {
-    Venda convertToVenda(VendaRequestDTO vendaRequestDTO);
+    Venda toVenda(VendaRequestDTO vendaRequestDTO);
 
-    VendaResponseDTO covertToVendaDTO(Venda venda);
+    VendaResponseDTO toVendaDTO(Venda venda);
+
+    void atualizar(VendaAtualizarDTO vendaAtualizarDTO, @MappingTarget Venda venda);
 }

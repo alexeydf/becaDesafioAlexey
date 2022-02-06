@@ -1,5 +1,6 @@
 package git.desafioalexey.pizzaria.controllers;
 
+import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaAtualizarDTO;
 import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaRequestDTO;
 import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.VendaResponseDTO;
 import git.desafioalexey.pizzaria.models.Venda;
@@ -26,8 +27,8 @@ public class VendaController {
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Venda> atualizar(@RequestBody Venda venda,@PathVariable Long id) {
-        Venda vendaAtualizada = vendaService.atualizar(venda, id);
+    public ResponseEntity<VendaResponseDTO> atualizar(@RequestBody VendaAtualizarDTO venda, @PathVariable Long id) {
+        VendaResponseDTO vendaAtualizada = vendaService.atualizar(venda, id);
 
         return ResponseEntity.ok(vendaAtualizada);
     }
