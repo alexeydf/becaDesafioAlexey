@@ -1,12 +1,11 @@
 package git.desafioalexey.pizzaria.services;
 
-import git.desafioalexey.pizzaria.dtos.mapper.PizzaMapper;
+import git.desafioalexey.pizzaria.mapper.PizzaMapper;
 import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PizzaResponseDTO;
 import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PizzaRequestDTO;
 import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.repositories.PizzaRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
