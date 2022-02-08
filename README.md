@@ -24,8 +24,7 @@ API feita para controlar as vendas de uma pizzaria.
 | GET `/cliente/1`         | Retorna o cliente solicitado por ID.                                |
 | GET `/cliente/nome/nome` | Retorna o cliente solicitado pelo nome.                             |
 | GET `/cliente`           | Retorna todos os clientes cadastrados.                              |
-| DELETE `/cliente/1`      | Exclui o cliente solicitado por ID.                                 |
-| POST `/item`             | Retorna um novo item para venda.                                    |
+| DELETE `/cliente/1`      | Exclui o cliente solicitado por ID.                                 |                                  |
 | PATCH `/item/1`          | Retorna as atualizaçãos feitas no item de venda por meio de seu ID. |
 | GET `/item/1`            | Retorna o item da venda solicitado por ID.                          |
 | GET `/item`              | Retorna todos os itens de venda.                                    |
@@ -54,3 +53,6 @@ API feita para controlar as vendas de uma pizzaria.
 ## Desafio 04
 <p>Neste desafio foram criadas as classes de repository de nossa API. Essas classes são utilizadas para salvar, editar, listar e excluir os dados em nosso banco. Implementamos as classes repository em nossa classa service.</p>
 <p>Configuramos o banco de dados H2 em nossa API. Para isso adicionamos as dependências <b><i>h2</i></b> e <b><i>spring-boot-starter-data-jpa</i></b> em nosso arquivo pom.xml.</p>
+
+## Desafio 05
+<p>Foram aplicados os conceitos de DTO. Com isso as respostas ficaram mais amigáveis e as requisições mais seguras.</p>

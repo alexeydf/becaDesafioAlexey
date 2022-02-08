@@ -1,17 +1,11 @@
-package git.desafioalexey.pizzaria.models;
+package git.desafioalexey.pizzaria.dtos.responses.clienteResponses;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import git.desafioalexey.pizzaria.models.Cliente;
+
 import java.time.LocalDate;
 
-@Entity
-public class Cliente {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class GetClienteResponse {
+    private Long codigo;
     private String nome;
     private String endereco;
     private String telefone;
@@ -20,29 +14,26 @@ public class Cliente {
     private Double totalGasto;
     private LocalDate dataCadastro;
 
-    public Cliente() {
-        this.dataCadastro = LocalDate.now();
-        this.totalGasto = 0.0;
-        this.comprasRealizadas = 0;
+    public GetClienteResponse toClienteResponse(Cliente cliente) {
+        GetClienteResponse getClienteResponse = new GetClienteResponse();
+        getClienteResponse.setCodigo(cliente.getId());
+        getClienteResponse.setEmail(cliente.getEmail());
+        getClienteResponse.setEndereco(cliente.getEndereco());
+        getClienteResponse.setNome(cliente.getNome());
+        getClienteResponse.setTelefone(cliente.getTelefone());
+        getClienteResponse.setComprasRealizadas(cliente.getComprasRealizadas());
+        getClienteResponse.setTotalGasto(cliente.getTotalGasto());
+        getClienteResponse.setDataCadastro(cliente.getDataCadastro());
+
+        return getClienteResponse;
     }
 
-    public Cliente(Long id,String nome, String endereco, String telefone, String email) {
-        this.id = id;
-        this.nome = nome;
-        this.endereco = endereco;
-        this.telefone = telefone;
-        this.email = email;
-        this.dataCadastro = LocalDate.now();
-        this.totalGasto = 0.0;
-        this.comprasRealizadas = 0;
+    public Long getCodigo() {
+        return codigo;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public void setCodigo(Long codigo) {
+        this.codigo = codigo;
     }
 
     public String getNome() {

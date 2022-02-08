@@ -1,75 +1,79 @@
 package git.desafioalexey.pizzaria.services;
 
+import git.desafioalexey.pizzaria.dtos.responses.pizzaResponses.PizzaResponseDTO;
+import git.desafioalexey.pizzaria.dtos.requests.pizzaRequests.PizzaRequestDTO;
 import git.desafioalexey.pizzaria.models.Pizza;
-import git.desafioalexey.pizzaria.repositorys.PizzaRepository;
+import git.desafioalexey.pizzaria.repositories.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
-public class PizzaService implements CrudInterface<Pizza> {
+public class PizzaService {
 
     @Autowired
     private PizzaRepository pizzaRepository;
 
-    public Pizza criar( Pizza pizza) {
-        if(pizza.getSabor().length() < 3 || pizza.getTipo().length() < 3) {
+    public PizzaResponseDTO criar(PizzaRequestDTO pizzaRequestDTO) {
+        if(pizzaRequestDTO.getSabor().length() < 3 || pizzaRequestDTO.getTipo().length() < 3) {
             throw new RuntimeException("Caracteres insuficientes. Informe 3 caracteres ou mais!");
         }
 
-        if(pizza.getPreco() < 0) {
+        if(pizzaRequestDTO.getPreco() < 0) {
             throw new RuntimeException("Preço informado não é válido!");
         }
 
-        Pizza pizzaCriada =  pizzaRepository.save(pizza);
+        Pizza pizza = new Pizza();
+        pizzaRequestDTO.convertToPizza(pizzaRequestDTO,pizza);
 
-        return pizzaCriada;
+        pizzaRepository.save(pizza);
+
+        return new PizzaResponseDTO().covertToPizzaDTO(pizza);
     }
 
-    public Pizza atualizar(Pizza pizza, Long id) {
-        Pizza pizzaEncontrada = this.listarPorId(id);
+    public PizzaResponseDTO atualizar(PizzaRequestDTO pizzaRequestDTO, Long id) {
+        Pizza pizzaEncontrada = pizzaRepository.findById(id).get();
 
-        pizzaEncontrada.setSabor(pizza.getSabor());
-        pizzaEncontrada.setTipo(pizza.getTipo());
-        pizzaEncontrada.setPreco(pizza.getPreco());
+        pizzaRequestDTO.convertToPizza(pizzaRequestDTO,pizzaEncontrada);
 
         pizzaRepository.save(pizzaEncontrada);
 
-        return pizzaEncontrada;
+        return new PizzaResponseDTO().covertToPizzaDTO(pizzaEncontrada);
     }
 
-    public Pizza listarPorId(Long id) {
-        Pizza pizzaLocalizada = pizzaRepository.findById(id).get();
+    public PizzaResponseDTO listarPorId(Long id) {
+        Pizza pizza = pizzaRepository.findById(id).get();
 
-        return pizzaLocalizada;
+        return new PizzaResponseDTO().covertToPizzaDTO(pizza);
     }
 
-    public Pizza listarPorSabor(String sabor) {
+    public List<PizzaResponseDTO> listarPorSabor(String sabor) {
+        List<Pizza> pizzas = pizzaRepository.findBySaborContaining(sabor);
 
-        List<Pizza> pizzas = pizzaRepository.findAll();
+        List<PizzaResponseDTO> pizzaResponseDTOs = new ArrayList<>();
 
         for (Pizza pizza: pizzas) {
-            if (pizza.getSabor().equalsIgnoreCase(sabor)) {
-                Pizza saborPesquisado = pizza;
-                return saborPesquisado;
-            }
+            pizzaResponseDTOs.add(new PizzaResponseDTO().covertToPizzaDTO(pizza));
         }
 
-        throw new RuntimeException("Sabor não encontrado. Tente novamente!");
+        return pizzaResponseDTOs;
     }
 
-    public List<Pizza> listarTodos() {
+    public List<PizzaResponseDTO> listarTodos() {
         List<Pizza> pizzas = pizzaRepository.findAll();
 
-        return pizzas;
+        List<PizzaResponseDTO> pizzaResponseDTOs = new ArrayList<>();
+
+        for (Pizza pizza: pizzas) {
+            pizzaResponseDTOs.add(new PizzaResponseDTO().covertToPizzaDTO(pizza));
+        }
+
+        return pizzaResponseDTOs;
     }
 
     public void excluir(Long id) {
-        Pizza pizzaLocalizada = pizzaRepository.findById(id).get();
-
-        pizzaRepository.delete(pizzaLocalizada);
+        pizzaRepository.deleteById(id);
     }
 }

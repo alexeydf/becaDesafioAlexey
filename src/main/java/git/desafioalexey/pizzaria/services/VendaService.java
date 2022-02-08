@@ -1,22 +1,19 @@
 package git.desafioalexey.pizzaria.services;
 
+import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaRequestDTO;
+import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.VendaResponseDTO;
 import git.desafioalexey.pizzaria.models.Cliente;
-import git.desafioalexey.pizzaria.models.ItemVenda;
-import git.desafioalexey.pizzaria.models.Pizza;
 import git.desafioalexey.pizzaria.models.Venda;
-import git.desafioalexey.pizzaria.repositorys.VendaRepository;
+import git.desafioalexey.pizzaria.repositories.ClienteRepository;
+import git.desafioalexey.pizzaria.repositories.VendaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @Service
-public class VendaService implements CrudInterface<Venda>{
+public class VendaService {
 
     @Autowired
     private VendaRepository vendaRepository;
@@ -27,30 +24,21 @@ public class VendaService implements CrudInterface<Venda>{
     @Autowired
     private PizzaService pizzaService;
 
-    @Override
-    public Venda criar(Venda venda) {
-        Cliente cliente = clienteService.listarPorId(venda.getCliente().getId());
+    @Autowired
+    private ClienteRepository clienteRepository;
+
+    public VendaResponseDTO criar(VendaRequestDTO vendaRequestDTO) {
+        Cliente cliente = clienteRepository.findById(vendaRequestDTO.getClienteId()).get();
         cliente.setComprasRealizadas(cliente.getComprasRealizadas() + 1);
-        cliente.setTotalGasto(cliente.getTotalGasto() + venda.getValorTotal());
+        cliente.setTotalGasto(cliente.getTotalGasto() + vendaRequestDTO.getValorTotal());
 
-        venda.setCliente(cliente);
-        venda.setData(LocalDate.now());
+        Venda vendaCriada = vendaRepository.save(vendaRequestDTO.convertToVenda(cliente, vendaRequestDTO));
 
-        for (ItemVenda item: venda.getItens()) {
-            Pizza pizza = pizzaService.listarPorId(item.getPizza().getId());
-
-            item.setPizza(pizza);
-            item.setPreco(pizza.getPreco());
-        }
-
-        Venda vendaCriada = vendaRepository.save(venda);
-
-        return vendaCriada;
+        return new VendaResponseDTO().convertToVendaDTO(vendaCriada);
     }
 
-    @Override
     public Venda atualizar(Venda venda, Long id) {
-        Venda vendaEncontrada = this.listarPorId(id);
+        Venda vendaEncontrada = vendaRepository.findById(id).get();
 
         vendaEncontrada.setCliente(venda.getCliente());
 
@@ -59,21 +47,24 @@ public class VendaService implements CrudInterface<Venda>{
         return venda;
     }
 
-    @Override
-    public List<Venda> listarTodos() {
+    public List<VendaResponseDTO> listarTodos() {
         List<Venda> vendas = vendaRepository.findAll();
 
-        return vendas;
+        List<VendaResponseDTO> getVendaResponses = new ArrayList<>();
+
+        for (Venda venda: vendas) {
+            getVendaResponses.add(new VendaResponseDTO().convertToVendaDTO(venda));
+        }
+
+        return getVendaResponses;
     }
 
-    @Override
-    public Venda listarPorId(Long id) {
-        Venda venda = vendaRepository.findById(id).get();
+    public VendaResponseDTO listarPorId(Long id) {
+        Venda vendaLocalizada = vendaRepository.findById(id).get();
 
-        return venda;
+        return new VendaResponseDTO().convertToVendaDTO(vendaLocalizada);
     }
 
-    @Override
     public void excluir(Long id) {
         //
     }

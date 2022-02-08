@@ -1,14 +1,14 @@
 package git.desafioalexey.pizzaria.controllers;
 
-import git.desafioalexey.pizzaria.models.Cliente;
+import git.desafioalexey.pizzaria.dtos.requests.clienteRequests.ClienteRequestDTO;
+import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.GetClienteResponse;
+import git.desafioalexey.pizzaria.dtos.responses.clienteResponses.ClienteResponseDTO;
 import git.desafioalexey.pizzaria.services.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Date;
 import java.util.List;
-import java.util.Random;
 
 @RestController
 @RequestMapping("/cliente")
@@ -18,37 +18,37 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @PostMapping
-    public ResponseEntity<Cliente> cadastrar(@RequestBody Cliente cliente) {
-       Cliente clienteCriado = clienteService.criar(cliente);
+    public ResponseEntity<ClienteResponseDTO> cadastrar(@RequestBody ClienteRequestDTO cliente) {
+       ClienteResponseDTO clienteCriado = clienteService.criar(cliente);
 
         return ResponseEntity.created(null).body(clienteCriado);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Cliente> atualizarCadastro(@RequestBody Cliente cliente, @PathVariable Long id) {
-        Cliente clienteAtualizado = clienteService.atualizar(cliente, id);
+    public ResponseEntity<ClienteResponseDTO> atualizarCadastro(@RequestBody ClienteRequestDTO cliente, @PathVariable Long id) {
+        ClienteResponseDTO clienteAtualizado = clienteService.atualizar(cliente, id);
 
         return ResponseEntity.ok(clienteAtualizado);
 
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cliente> listarPorId(@PathVariable Long id) {
-        Cliente clienteListadoPorId = clienteService.listarPorId(id);
+    public ResponseEntity<GetClienteResponse> listarPorId(@PathVariable Long id) {
+        GetClienteResponse clienteListadoPorId = clienteService.listarPorId(id);
 
         return ResponseEntity.ok(clienteListadoPorId);
     }
 
     @GetMapping("/nome/{nome}")
-    public ResponseEntity<Cliente> listarPorNome(@PathVariable String nome) {
-        Cliente clienteListadoPorNome = clienteService.listarPorNome(nome);
+    public ResponseEntity<List<GetClienteResponse>> listarPorNome(@PathVariable String nome) {
+        List<GetClienteResponse> clienteListadoPorNome = clienteService.listarPorNome(nome);
 
         return ResponseEntity.ok(clienteListadoPorNome);
     }
 
     @GetMapping
-    public ResponseEntity<List<Cliente>> listarTodos(){
-        List<Cliente> listados = clienteService.listarTodos();
+    public ResponseEntity<List<GetClienteResponse>> listarTodos(){
+        List<GetClienteResponse> listados = clienteService.listarTodos();
 
         return ResponseEntity.ok(listados);
     }
