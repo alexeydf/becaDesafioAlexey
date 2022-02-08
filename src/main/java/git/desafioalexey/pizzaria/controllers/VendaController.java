@@ -1,5 +1,6 @@
 package git.desafioalexey.pizzaria.controllers;
 
+import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaAtualizarDTO;
 import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaRequestDTO;
 import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.VendaResponseDTO;
 import git.desafioalexey.pizzaria.models.Venda;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,15 +20,15 @@ public class VendaController {
     private VendaService vendaService;
 
     @PostMapping
-    public ResponseEntity<VendaResponseDTO> criar(@RequestBody VendaRequestDTO venda) {
+    public ResponseEntity<VendaResponseDTO> criar(@RequestBody @Valid VendaRequestDTO venda) {
         VendaResponseDTO vendaCriada = vendaService.criar(venda);
 
         return ResponseEntity.created(null).body(vendaCriada);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<Venda> atualizar(@RequestBody Venda venda,@PathVariable Long id) {
-        Venda vendaAtualizada = vendaService.atualizar(venda, id);
+    public ResponseEntity<VendaResponseDTO> atualizar(@RequestBody VendaAtualizarDTO venda, @PathVariable Long id) {
+        VendaResponseDTO vendaAtualizada = vendaService.atualizar(venda, id);
 
         return ResponseEntity.ok(vendaAtualizada);
     }

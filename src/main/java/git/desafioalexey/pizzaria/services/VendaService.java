@@ -1,50 +1,55 @@
 package git.desafioalexey.pizzaria.services;
 
+import git.desafioalexey.pizzaria.dtos.mapper.VendaMapper;
+import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaAtualizarDTO;
 import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaRequestDTO;
 import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.VendaResponseDTO;
 import git.desafioalexey.pizzaria.models.Cliente;
 import git.desafioalexey.pizzaria.models.Venda;
 import git.desafioalexey.pizzaria.repositories.ClienteRepository;
 import git.desafioalexey.pizzaria.repositories.VendaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class VendaService {
-
-    @Autowired
-    private VendaRepository vendaRepository;
-
-    @Autowired
-    private ClienteService clienteService;
-
-    @Autowired
-    private PizzaService pizzaService;
-
-    @Autowired
-    private ClienteRepository clienteRepository;
+    private final VendaRepository vendaRepository;
+    private final ClienteService clienteService;
+    private final PizzaService pizzaService;
+    private final ClienteRepository clienteRepository;
+    private final VendaMapper vendaMapper;
 
     public VendaResponseDTO criar(VendaRequestDTO vendaRequestDTO) {
         Cliente cliente = clienteRepository.findById(vendaRequestDTO.getClienteId()).get();
         cliente.setComprasRealizadas(cliente.getComprasRealizadas() + 1);
         cliente.setTotalGasto(cliente.getTotalGasto() + vendaRequestDTO.getValorTotal());
 
-        Venda vendaCriada = vendaRepository.save(vendaRequestDTO.convertToVenda(cliente, vendaRequestDTO));
+        Venda vendaCriada = vendaMapper.toVenda(vendaRequestDTO);
+        vendaCriada.setCliente(cliente);
 
-        return new VendaResponseDTO().convertToVendaDTO(vendaCriada);
+        vendaRepository.save(vendaCriada);
+
+        VendaResponseDTO vendaResponseDTO = vendaMapper.toVendaDTO(vendaCriada);
+        vendaResponseDTO.setClienteNome(cliente.getNome());
+
+        return vendaResponseDTO;
     }
 
-    public Venda atualizar(Venda venda, Long id) {
+    public VendaResponseDTO atualizar(VendaAtualizarDTO vendaAtualizarDTO, Long id) {
         Venda vendaEncontrada = vendaRepository.findById(id).get();
 
-        vendaEncontrada.setCliente(venda.getCliente());
+        Cliente cliente = clienteRepository.findById(vendaEncontrada.getCliente().getId()).get();
+        cliente.setTotalGasto((cliente.getTotalGasto() - vendaEncontrada.getValorTotal()) + vendaAtualizarDTO.getValorTotal());
+
+        vendaMapper.atualizar(vendaAtualizarDTO, vendaEncontrada);
 
         vendaRepository.save(vendaEncontrada);
 
-        return venda;
+        return vendaMapper.toVendaDTO(vendaEncontrada);
     }
 
     public List<VendaResponseDTO> listarTodos() {
@@ -53,7 +58,10 @@ public class VendaService {
         List<VendaResponseDTO> getVendaResponses = new ArrayList<>();
 
         for (Venda venda: vendas) {
-            getVendaResponses.add(new VendaResponseDTO().convertToVendaDTO(venda));
+            VendaResponseDTO vendaResponseDTO = vendaMapper.toVendaDTO(venda);
+            vendaResponseDTO.setClienteNome(venda.getCliente().getNome());
+
+            getVendaResponses.add(vendaResponseDTO);
         }
 
         return getVendaResponses;
@@ -62,7 +70,10 @@ public class VendaService {
     public VendaResponseDTO listarPorId(Long id) {
         Venda vendaLocalizada = vendaRepository.findById(id).get();
 
-        return new VendaResponseDTO().convertToVendaDTO(vendaLocalizada);
+        VendaResponseDTO vendaResponseDTO = vendaMapper.toVendaDTO(vendaLocalizada);
+        vendaResponseDTO.setClienteNome(vendaLocalizada.getCliente().getNome());
+
+        return vendaResponseDTO;
     }
 
     public void excluir(Long id) {

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -17,14 +18,14 @@ public class PizzaController {
     private PizzaService pizzaService;
 
     @PostMapping
-    public ResponseEntity<PizzaResponseDTO> criarNovo(@RequestBody PizzaRequestDTO pizzaRequestDTO) {
+    public ResponseEntity<PizzaResponseDTO> criarNovo(@RequestBody @Valid PizzaRequestDTO pizzaRequestDTO) {
        PizzaResponseDTO pizzaCriada = pizzaService.criar(pizzaRequestDTO);
 
         return ResponseEntity.created(null).body(pizzaCriada);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<PizzaResponseDTO> atualizarRegistro(@RequestBody PizzaRequestDTO pizza, @PathVariable Long id) {
+    public ResponseEntity<PizzaResponseDTO> atualizarRegistro(@RequestBody @Valid PizzaRequestDTO pizza, @PathVariable Long id) {
         PizzaResponseDTO pizzaAtualizada = pizzaService.atualizar(pizza,id);
 
         return ResponseEntity.ok(pizzaAtualizada);

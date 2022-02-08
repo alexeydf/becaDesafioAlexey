@@ -56,3 +56,8 @@ API feita para controlar as vendas de uma pizzaria.
 
 ## Desafio 05
 <p>Foram aplicados os conceitos de DTO. Com isso as respostas ficaram mais amigáveis e as requisições mais seguras.</p>
+
+## Desafio 06
+<p>Foram adicionadas algumas validações utilizando anotações. Para isso foi necessário a inclução da depêndencia <b>spring-boot-starter-validation</b> em nosso pom.xml. Foi criado o arquivo <b>ValidationMessages.properties</b>, nesse arquivo ficam gravados as mensagens de erro.</p>
+<p>Utilizamos a anotaçao @Mapper para a conversão de nossos objetos. Para isso adicionamos a dependência <b>mapstruct</b> em nosso pom.xml.</p>
+<p>Foi implementado o Lombok, para isso foi adicionado a dependência <b>lombok</b>. Agora não precisamos mais incluir getters e setters em nossas classes.</p>

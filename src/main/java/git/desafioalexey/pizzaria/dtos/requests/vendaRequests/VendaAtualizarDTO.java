@@ -1,21 +1,14 @@
 package git.desafioalexey.pizzaria.dtos.requests.vendaRequests;
 
-import git.desafioalexey.pizzaria.models.Cliente;
 import git.desafioalexey.pizzaria.models.ItemVenda;
-import git.desafioalexey.pizzaria.models.Venda;
 import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class VendaRequestDTO {
-    @NotNull(message = "{campo.not.blank}")
-    private Long clienteId;
-
+public class VendaAtualizarDTO {
     @NotEmpty(message = "{campo.not.blank}")
     private List<ItemVenda> itens = new ArrayList<>();
 
