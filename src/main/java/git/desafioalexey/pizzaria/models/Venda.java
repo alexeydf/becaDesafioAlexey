@@ -28,7 +28,6 @@ public class Venda {
 
     public Venda() {
         this.data = LocalDate.now();
-        this.valorTotal = valorTotal;
     }
 
     public Integer getQuantidadeTotal() {

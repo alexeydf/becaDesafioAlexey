@@ -1,6 +1,6 @@
 package git.desafioalexey.pizzaria.services;
 
-import git.desafioalexey.pizzaria.dtos.mapper.VendaMapper;
+import git.desafioalexey.pizzaria.mapper.VendaMapper;
 import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaAtualizarDTO;
 import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaRequestDTO;
 import git.desafioalexey.pizzaria.dtos.responses.vendaResponses.VendaResponseDTO;
@@ -18,8 +18,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class VendaService {
     private final VendaRepository vendaRepository;
-    private final ClienteService clienteService;
-    private final PizzaService pizzaService;
     private final ClienteRepository clienteRepository;
     private final VendaMapper vendaMapper;
 

@@ -1,4 +1,4 @@
-package git.desafioalexey.pizzaria.dtos.mapper;
+package git.desafioalexey.pizzaria.mapper;
 
 import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaAtualizarDTO;
 import git.desafioalexey.pizzaria.dtos.requests.vendaRequests.VendaRequestDTO;
